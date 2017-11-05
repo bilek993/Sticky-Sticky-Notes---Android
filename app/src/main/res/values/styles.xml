@@ -8,4 +8,13 @@
         <item name="android:navigationBarColor">@color/primary_dark</item>
     </style>
 
+    <style name="LandingTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:background">@color/primary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:navigationBarColor">@color/primary_dark</item>
+    </style>
+
 </resources>
