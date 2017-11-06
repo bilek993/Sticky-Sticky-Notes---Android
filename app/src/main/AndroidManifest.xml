@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/MainTheme">
         <activity
-            android:name=".LandingActivity"
+            android:name=".activities.LandingActivity"
             android:theme="@style/LandingTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,8 +1,11 @@
-package com.jakubbilinski.stickystickynotesandroid;
+package com.jakubbilinski.stickystickynotesandroid.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import com.jakubbilinski.stickystickynotesandroid.animations.ImageViewLoopOpacityAnimator;
+import com.jakubbilinski.stickystickynotesandroid.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

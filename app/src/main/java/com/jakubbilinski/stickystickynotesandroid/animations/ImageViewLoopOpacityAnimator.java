@@ -1,4 +1,4 @@
-package com.jakubbilinski.stickystickynotesandroid;
+package com.jakubbilinski.stickystickynotesandroid.animations;
 
 import android.animation.ValueAnimator;
 import android.view.animation.Animation;
