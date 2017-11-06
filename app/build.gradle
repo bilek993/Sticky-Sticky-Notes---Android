@@ -34,4 +34,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.android.support:design:26.1.0'
 }

@@ -1,5 +1,6 @@
 package com.jakubbilinski.stickystickynotesandroid.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -25,6 +26,10 @@ public class LandingActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         playBackgroundAnimation();
+
+        // TODO: Remove this code
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     private void playBackgroundAnimation() {
