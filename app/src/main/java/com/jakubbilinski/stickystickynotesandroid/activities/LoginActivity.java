@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.floatingActionButtonLogin)
     void onFloatingActionButtonLoginClick() {
         String address = textInputEditTextServerAddress.getText().toString();
-        if (!address.startsWith("http:") || !address.startsWith("https:")) {
+        if (!address.startsWith("http:") && !address.startsWith("https:")) {
             new AlertDialog.Builder(LoginActivity.this)
                     .setTitle(getString(R.string.encountered_problem))
                     .setMessage(getString(R.string.wrong_url_format))
@@ -50,40 +50,51 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        LocalStorageHelper.setServerAddress(this, address);
 
-        RestClient restClient = RestBuilder.buildSimple(this);
-        Call<ResultItem> call = restClient.verifyUserCredentials(
-                new UserItem(textInputEditTextUsername.getText().toString(),
-                        textInputEditTextPassword.getText().toString()));
+        try {
+            LocalStorageHelper.setServerAddress(this, address);
 
-        call.enqueue(new AdvancedCallback<ResultItem>(this) {
-            @Override
-            public void onRetry() {
-                onFloatingActionButtonLoginClick();
-            }
+            RestClient restClient = RestBuilder.buildSimple(this);
+            Call<ResultItem> call = restClient.verifyUserCredentials(
+                    new UserItem(textInputEditTextUsername.getText().toString(),
+                            textInputEditTextPassword.getText().toString()));
 
-            @Override
-            public void onResponse(Call<ResultItem> call, Response<ResultItem> response) {
-                super.onResponse(call, response);
+            call.enqueue(new AdvancedCallback<ResultItem>(this) {
+                @Override
+                public void onRetry() {
+                    onFloatingActionButtonLoginClick();
+                }
 
-                if (response.isSuccessful()) {
-                    if (response.body().isSuccessful()){
-                        finish();
-                    } else {
-                        new AlertDialog.Builder(LoginActivity.this)
-                                .setTitle(getString(R.string.encountered_problem))
-                                .setMessage(response.body().getErrorMessage())
-                                .setPositiveButton(getText(R.string.ok), null)
-                                .show();
+                @Override
+                public void onResponse(Call<ResultItem> call, Response<ResultItem> response) {
+                    super.onResponse(call, response);
+
+                    if (response.isSuccessful()) {
+                        if (response.body().isSuccessful()){
+                            finish();
+                        } else {
+                            new AlertDialog.Builder(LoginActivity.this)
+                                    .setTitle(getString(R.string.encountered_problem))
+                                    .setMessage(response.body().getErrorMessage())
+                                    .setPositiveButton(getText(R.string.ok), null)
+                                    .show();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResultItem> call, Throwable t) {
-                super.onFailure(call, t);
-            }
-        });
+                @Override
+                public void onFailure(Call<ResultItem> call, Throwable t) {
+                    super.onFailure(call, t);
+                }
+            });
+
+        } catch (Exception e) {
+
+            new AlertDialog.Builder(LoginActivity.this)
+                    .setTitle(getString(R.string.encountered_problem))
+                    .setMessage(e.getMessage())
+                    .setPositiveButton(getText(R.string.ok), null)
+                    .show();
+        }
     }
 }
