@@ -19,6 +19,11 @@ public class UserItem {
     @Expose
     private String password;
 
+    public UserItem(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public Integer getId() {
         return id;
     }
