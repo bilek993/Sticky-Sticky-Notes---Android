@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
+import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
 import com.jakubbilinski.stickystickynotesandroid.networking.AdvancedCallback;
 import com.jakubbilinski.stickystickynotesandroid.networking.RestBuilder;
 import com.jakubbilinski.stickystickynotesandroid.networking.RestClient;
@@ -22,6 +23,8 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    @BindView(R.id.TextInputServerAddress)
+    TextInputEditText textInputEditTextServerAddress;
     @BindView(R.id.TextInputUsername)
     TextInputEditText textInputEditTextUsername;
     @BindView(R.id.TextInputPassword)
@@ -37,7 +40,19 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.floatingActionButtonLogin)
     void onFloatingActionButtonLoginClick() {
-        RestClient restClient = RestBuilder.buildSimple();
+        String address = textInputEditTextServerAddress.getText().toString();
+        if (!address.startsWith("http:") || !address.startsWith("https:")) {
+            new AlertDialog.Builder(LoginActivity.this)
+                    .setTitle(getString(R.string.encountered_problem))
+                    .setMessage(getString(R.string.wrong_url_format))
+                    .setPositiveButton(getText(R.string.ok), null)
+                    .show();
+            return;
+        }
+
+        LocalStorageHelper.setServerAddress(this, address);
+
+        RestClient restClient = RestBuilder.buildSimple(this);
         Call<ResultItem> call = restClient.verifyUserCredentials(
                 new UserItem(textInputEditTextUsername.getText().toString(),
                         textInputEditTextPassword.getText().toString()));

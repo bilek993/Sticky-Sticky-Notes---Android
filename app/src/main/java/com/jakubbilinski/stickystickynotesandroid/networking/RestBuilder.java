@@ -1,6 +1,9 @@
 package com.jakubbilinski.stickystickynotesandroid.networking;
 
+import android.content.Context;
+
 import com.google.gson.GsonBuilder;
+import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -11,9 +14,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestBuilder {
 
-    public static RestClient buildSimple() {
+    public static RestClient buildSimple(Context context) {
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.6") // TODO: Change it to variable
+                .baseUrl(LocalStorageHelper.getServerAddress(context))
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()));
 
         Retrofit retrofit = builder.build();
