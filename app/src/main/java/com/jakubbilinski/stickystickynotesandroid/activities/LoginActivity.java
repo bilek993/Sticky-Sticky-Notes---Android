@@ -1,10 +1,12 @@
 package com.jakubbilinski.stickystickynotesandroid.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
@@ -24,6 +26,10 @@ public class LoginActivity extends AppCompatActivity {
     TextInputEditText textInputEditTextPassword;
     @BindView(R.id.progressBarLogin)
     ProgressBar progressBarLogin;
+    @BindView(R.id.floatingActionButtonLogin)
+    FloatingActionButton floatingActionButtonLogin;
+    @BindView(R.id.buttonRegister)
+    Button buttonRegister;
 
     private LoginNetworking networking;
 
@@ -59,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         progressBarLogin.setVisibility(View.VISIBLE);
+        disableFields();
+
         networking.Login(
                 textInputEditTextServerAddress.getText().toString(),
                 textInputEditTextUsername.getText().toString(),
@@ -69,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 },
                 () -> {
                     progressBarLogin.setVisibility(View.INVISIBLE);
+                    enableFields();
                     return null;
                 });
     }
@@ -82,13 +91,32 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         progressBarLogin.setVisibility(View.VISIBLE);
+        disableFields();
+
         networking.CreateUser(
                 textInputEditTextServerAddress.getText().toString(),
                 textInputEditTextUsername.getText().toString(),
                 textInputEditTextPassword.getText().toString(),
                 () -> {
                     progressBarLogin.setVisibility(View.INVISIBLE);
+                    enableFields();
                     return null;
                 });
+    }
+
+    private void disableFields() {
+        textInputEditTextServerAddress.setEnabled(false);
+        textInputEditTextUsername.setEnabled(false);
+        textInputEditTextPassword.setEnabled(false);
+        floatingActionButtonLogin.setEnabled(false);
+        buttonRegister.setEnabled(false);
+    }
+
+    private void enableFields() {
+        textInputEditTextServerAddress.setEnabled(true);
+        textInputEditTextUsername.setEnabled(true);
+        textInputEditTextPassword.setEnabled(true);
+        floatingActionButtonLogin.setEnabled(true);
+        buttonRegister.setEnabled(true);
     }
 }
