@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:background="@color/primary"
     tools:context="com.jakubbilinski.stickystickynotesandroid.activities.LoginActivity">
 
     <TextView
@@ -147,7 +148,6 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
-        app:backgroundTint="@color/accent"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
