@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
-import com.jakubbilinski.stickystickynotesandroid.activities.LoginActivity;
 import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
 import com.jakubbilinski.stickystickynotesandroid.networking.items.ResultItem;
 import com.jakubbilinski.stickystickynotesandroid.networking.items.UserItem;

@@ -5,7 +5,6 @@ import android.support.v7.app.AlertDialog;
 
 import com.google.gson.GsonBuilder;
 import com.jakubbilinski.stickystickynotesandroid.R;
-import com.jakubbilinski.stickystickynotesandroid.activities.LoginActivity;
 import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
 
 import retrofit2.Retrofit;

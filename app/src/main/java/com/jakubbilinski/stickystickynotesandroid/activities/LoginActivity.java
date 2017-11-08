@@ -1,26 +1,16 @@
 package com.jakubbilinski.stickystickynotesandroid.activities;
 
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
-import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
-import com.jakubbilinski.stickystickynotesandroid.networking.AdvancedCallback;
 import com.jakubbilinski.stickystickynotesandroid.networking.LoginNetworking;
-import com.jakubbilinski.stickystickynotesandroid.networking.RestSystem;
-import com.jakubbilinski.stickystickynotesandroid.networking.RestClient;
-import com.jakubbilinski.stickystickynotesandroid.networking.items.ResultItem;
-import com.jakubbilinski.stickystickynotesandroid.networking.items.UserItem;
-
-import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
