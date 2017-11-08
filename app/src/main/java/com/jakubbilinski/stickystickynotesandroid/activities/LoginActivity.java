@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.networking.LoginNetworking;
@@ -20,6 +22,8 @@ public class LoginActivity extends AppCompatActivity {
     TextInputEditText textInputEditTextUsername;
     @BindView(R.id.TextInputPassword)
     TextInputEditText textInputEditTextPassword;
+    @BindView(R.id.progressBarLogin)
+    ProgressBar progressBarLogin;
 
     private LoginNetworking networking;
 
@@ -54,12 +58,17 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        progressBarLogin.setVisibility(View.VISIBLE);
         networking.Login(
                 textInputEditTextServerAddress.getText().toString(),
                 textInputEditTextUsername.getText().toString(),
                 textInputEditTextPassword.getText().toString(),
                 () -> {
                     finish();
+                    return null;
+                },
+                () -> {
+                    progressBarLogin.setVisibility(View.INVISIBLE);
                     return null;
                 });
     }
@@ -72,9 +81,14 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        progressBarLogin.setVisibility(View.VISIBLE);
         networking.CreateUser(
                 textInputEditTextServerAddress.getText().toString(),
                 textInputEditTextUsername.getText().toString(),
-                textInputEditTextPassword.getText().toString());
+                textInputEditTextPassword.getText().toString(),
+                () -> {
+                    progressBarLogin.setVisibility(View.INVISIBLE);
+                    return null;
+                });
     }
 }

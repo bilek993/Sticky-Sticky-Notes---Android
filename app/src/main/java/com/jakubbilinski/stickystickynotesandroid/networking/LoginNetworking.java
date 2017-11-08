@@ -25,7 +25,7 @@ public class LoginNetworking {
         this.context = context;
     }
 
-    public void Login(String address, String username, String password, Callable<Void> OnSuccess) {
+    public void Login(String address, String username, String password, Callable<Void> OnSuccess, Callable<Void> onFinish) {
         try {
             LocalStorageHelper.setServerAddress(context, address);
 
@@ -36,7 +36,7 @@ public class LoginNetworking {
             call.enqueue(new AdvancedCallback<ResultItem>(context) {
                 @Override
                 public void onRetry() {
-                    Login(address, username, password, OnSuccess);
+                    Login(address, username, password, OnSuccess, onFinish);
                 }
 
                 @Override
@@ -58,21 +58,25 @@ public class LoginNetworking {
                                     .show();
                         }
                     }
+
+                    finished(onFinish);
                 }
 
                 @Override
                 public void onFailure(Call<ResultItem> call, Throwable t) {
                     super.onFailure(call, t);
+                    finished(onFinish);
                 }
             });
 
         } catch (Exception e) {
             RestSystem.showMessageUnknownError(context, e);
+            finished(onFinish);
         }
 
     }
 
-    public void CreateUser(String address, String username, String password) {
+    public void CreateUser(String address, String username, String password, Callable<Void> onFinish) {
         try {
             LocalStorageHelper.setServerAddress(context, address);
 
@@ -83,7 +87,7 @@ public class LoginNetworking {
             call.enqueue(new AdvancedCallback<ResultItem>(context) {
                 @Override
                 public void onRetry() {
-                    CreateUser(address, username, password);
+                    CreateUser(address, username, password, onFinish);
                 }
 
                 @Override
@@ -105,16 +109,28 @@ public class LoginNetworking {
                                     .show();
                         }
                     }
+
+                    finished(onFinish);
                 }
 
                 @Override
                 public void onFailure(Call<ResultItem> call, Throwable t) {
                     super.onFailure(call, t);
+                    finished(onFinish);
                 }
             });
 
         } catch (Exception e) {
             RestSystem.showMessageUnknownError(context, e);
+            finished(onFinish);
+        }
+    }
+
+    private void finished(Callable<Void> onFinish) {
+        try {
+            onFinish.call();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
