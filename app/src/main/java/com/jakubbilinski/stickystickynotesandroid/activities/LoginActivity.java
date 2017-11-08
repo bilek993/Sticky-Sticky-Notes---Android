@@ -6,6 +6,8 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
@@ -110,6 +112,28 @@ public class LoginActivity extends AppCompatActivity {
         textInputEditTextPassword.setEnabled(false);
         floatingActionButtonLogin.setEnabled(false);
         buttonRegister.setEnabled(false);
+
+        AlphaAnimation animationAlpha = new AlphaAnimation(1f, 0f);
+        animationAlpha.setDuration(250);
+        animationAlpha.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                floatingActionButtonLogin.setVisibility(View.INVISIBLE);
+                buttonRegister.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        floatingActionButtonLogin.startAnimation(animationAlpha);
+        buttonRegister.startAnimation(animationAlpha);
     }
 
     private void enableFields() {
@@ -118,5 +142,12 @@ public class LoginActivity extends AppCompatActivity {
         textInputEditTextPassword.setEnabled(true);
         floatingActionButtonLogin.setEnabled(true);
         buttonRegister.setEnabled(true);
+
+        AlphaAnimation animationAlpha = new AlphaAnimation(0f, 1f);
+        animationAlpha.setDuration(250);
+        floatingActionButtonLogin.setVisibility(View.VISIBLE);
+        buttonRegister.setVisibility(View.VISIBLE);
+        floatingActionButtonLogin.startAnimation(animationAlpha);
+        buttonRegister.startAnimation(animationAlpha);
     }
 }
