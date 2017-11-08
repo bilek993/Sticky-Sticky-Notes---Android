@@ -4,16 +4,17 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.EditText;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
 import com.jakubbilinski.stickystickynotesandroid.networking.AdvancedCallback;
-import com.jakubbilinski.stickystickynotesandroid.networking.RestBuilder;
+import com.jakubbilinski.stickystickynotesandroid.networking.LoginNetworking;
+import com.jakubbilinski.stickystickynotesandroid.networking.RestSystem;
 import com.jakubbilinski.stickystickynotesandroid.networking.RestClient;
 import com.jakubbilinski.stickystickynotesandroid.networking.items.ResultItem;
 import com.jakubbilinski.stickystickynotesandroid.networking.items.UserItem;
+
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,12 +31,16 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.TextInputPassword)
     TextInputEditText textInputEditTextPassword;
 
+    private LoginNetworking networking;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
+
+        networking = new LoginNetworking(this);
     }
 
     private boolean checkServerAddress(String address) {
@@ -51,14 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void showMessageUnknownError(Exception e) {
-        new AlertDialog.Builder(LoginActivity.this)
-                .setTitle(getString(R.string.encountered_problem))
-                .setMessage(e.getMessage())
-                .setPositiveButton(getText(R.string.ok), null)
-                .show();
-    }
-
     @OnClick(R.id.floatingActionButtonLogin)
     void onFloatingActionButtonLoginClick() {
         String address = textInputEditTextServerAddress.getText().toString();
@@ -67,46 +64,14 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        try {
-            LocalStorageHelper.setServerAddress(this, address);
-
-            RestClient restClient = RestBuilder.buildSimple(this);
-            Call<ResultItem> call = restClient.verifyUserCredentials(
-                    new UserItem(textInputEditTextUsername.getText().toString(),
-                            textInputEditTextPassword.getText().toString()));
-
-            call.enqueue(new AdvancedCallback<ResultItem>(this) {
-                @Override
-                public void onRetry() {
-                    onFloatingActionButtonLoginClick();
-                }
-
-                @Override
-                public void onResponse(Call<ResultItem> call, Response<ResultItem> response) {
-                    super.onResponse(call, response);
-
-                    if (response.isSuccessful()) {
-                        if (response.body().isSuccessful()){
-                            finish();
-                        } else {
-                            new AlertDialog.Builder(LoginActivity.this)
-                                    .setTitle(getString(R.string.encountered_problem))
-                                    .setMessage(response.body().getErrorMessage())
-                                    .setPositiveButton(getText(R.string.ok), null)
-                                    .show();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResultItem> call, Throwable t) {
-                    super.onFailure(call, t);
-                }
-            });
-
-        } catch (Exception e) {
-            showMessageUnknownError(e);
-        }
+        networking.Login(
+                textInputEditTextServerAddress.getText().toString(),
+                textInputEditTextUsername.getText().toString(),
+                textInputEditTextPassword.getText().toString(),
+                () -> {
+                    finish();
+                    return null;
+                });
     }
 
     @OnClick(R.id.buttonRegister)
@@ -117,49 +82,9 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        try {
-            LocalStorageHelper.setServerAddress(this, address);
-
-            RestClient restClient = RestBuilder.buildSimple(this);
-            Call<ResultItem> call = restClient.createNewUser(
-                    new UserItem(textInputEditTextUsername.getText().toString(),
-                            textInputEditTextPassword.getText().toString()));
-
-            call.enqueue(new AdvancedCallback<ResultItem>(this) {
-                @Override
-                public void onRetry() {
-                    onFloatingActionButtonLoginClick();
-                }
-
-                @Override
-                public void onResponse(Call<ResultItem> call, Response<ResultItem> response) {
-                    super.onResponse(call, response);
-
-                    if (response.isSuccessful()) {
-                        if (response.body().isSuccessful()){
-                            new AlertDialog.Builder(LoginActivity.this)
-                                    .setTitle(getString(R.string.new_user_title))
-                                    .setMessage(getString(R.string.new_user))
-                                    .setPositiveButton(getText(R.string.ok), null)
-                                    .show();
-                        } else {
-                            new AlertDialog.Builder(LoginActivity.this)
-                                    .setTitle(getString(R.string.encountered_problem))
-                                    .setMessage(response.body().getErrorMessage())
-                                    .setPositiveButton(getText(R.string.ok), null)
-                                    .show();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResultItem> call, Throwable t) {
-                    super.onFailure(call, t);
-                }
-            });
-
-        } catch (Exception e) {
-            showMessageUnknownError(e);
-        }
+        networking.CreateUser(
+                textInputEditTextServerAddress.getText().toString(),
+                textInputEditTextUsername.getText().toString(),
+                textInputEditTextPassword.getText().toString());
     }
 }
