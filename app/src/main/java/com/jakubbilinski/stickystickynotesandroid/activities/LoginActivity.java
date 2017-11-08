@@ -38,18 +38,34 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.floatingActionButtonLogin)
-    void onFloatingActionButtonLoginClick() {
-        String address = textInputEditTextServerAddress.getText().toString();
+    private boolean checkServerAddress(String address) {
         if (!address.startsWith("http:") && !address.startsWith("https:")) {
             new AlertDialog.Builder(LoginActivity.this)
                     .setTitle(getString(R.string.encountered_problem))
                     .setMessage(getString(R.string.wrong_url_format))
                     .setPositiveButton(getText(R.string.ok), null)
                     .show();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void showMessageUnknownError(Exception e) {
+        new AlertDialog.Builder(LoginActivity.this)
+                .setTitle(getString(R.string.encountered_problem))
+                .setMessage(e.getMessage())
+                .setPositiveButton(getText(R.string.ok), null)
+                .show();
+    }
+
+    @OnClick(R.id.floatingActionButtonLogin)
+    void onFloatingActionButtonLoginClick() {
+        String address = textInputEditTextServerAddress.getText().toString();
+
+        if (checkServerAddress(address)) {
             return;
         }
-
 
         try {
             LocalStorageHelper.setServerAddress(this, address);
@@ -89,12 +105,61 @@ public class LoginActivity extends AppCompatActivity {
             });
 
         } catch (Exception e) {
+            showMessageUnknownError(e);
+        }
+    }
 
-            new AlertDialog.Builder(LoginActivity.this)
-                    .setTitle(getString(R.string.encountered_problem))
-                    .setMessage(e.getMessage())
-                    .setPositiveButton(getText(R.string.ok), null)
-                    .show();
+    @OnClick(R.id.buttonRegister)
+    void onRegisterButtonClick() {
+        String address = textInputEditTextServerAddress.getText().toString();
+
+        if (checkServerAddress(address)) {
+            return;
+        }
+
+        try {
+            LocalStorageHelper.setServerAddress(this, address);
+
+            RestClient restClient = RestBuilder.buildSimple(this);
+            Call<ResultItem> call = restClient.createNewUser(
+                    new UserItem(textInputEditTextUsername.getText().toString(),
+                            textInputEditTextPassword.getText().toString()));
+
+            call.enqueue(new AdvancedCallback<ResultItem>(this) {
+                @Override
+                public void onRetry() {
+                    onFloatingActionButtonLoginClick();
+                }
+
+                @Override
+                public void onResponse(Call<ResultItem> call, Response<ResultItem> response) {
+                    super.onResponse(call, response);
+
+                    if (response.isSuccessful()) {
+                        if (response.body().isSuccessful()){
+                            new AlertDialog.Builder(LoginActivity.this)
+                                    .setTitle(getString(R.string.new_user_title))
+                                    .setMessage(getString(R.string.new_user))
+                                    .setPositiveButton(getText(R.string.ok), null)
+                                    .show();
+                        } else {
+                            new AlertDialog.Builder(LoginActivity.this)
+                                    .setTitle(getString(R.string.encountered_problem))
+                                    .setMessage(response.body().getErrorMessage())
+                                    .setPositiveButton(getText(R.string.ok), null)
+                                    .show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResultItem> call, Throwable t) {
+                    super.onFailure(call, t);
+                }
+            });
+
+        } catch (Exception e) {
+            showMessageUnknownError(e);
         }
     }
 }

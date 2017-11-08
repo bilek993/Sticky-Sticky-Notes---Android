@@ -13,4 +13,6 @@
     <string name="network_error_no_code">Unknown problem. More informations:</string>
     <string name="ok">Ok</string>
     <string name="wrong_url_format">Wrong url format. Url should begin with \'http\' or \'https\' prefix.</string>
+    <string name="new_user_title">New user</string>
+    <string name="new_user">New user has been created. You can login into your account now.</string>
 </resources>
