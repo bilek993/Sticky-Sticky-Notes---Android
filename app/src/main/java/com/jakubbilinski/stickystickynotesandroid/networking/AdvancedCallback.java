@@ -26,7 +26,42 @@ public abstract class AdvancedCallback<T> implements Callback<T> {
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (!response.isSuccessful()) {
-            // TODO: Implement functionality here
+            switch (response.code()) {
+                case 400:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_400));
+                    break;
+                case 401:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_401));
+                    break;
+                case 403:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_403));
+                    break;
+                case 404:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_404));
+                    break;
+                case 408:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_408));
+                    break;
+                case 410:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_410));
+                    break;
+                case 500:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_500));
+                    break;
+                case 502:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_502));
+                    break;
+                case 503:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_503));
+                    break;
+                case 504:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_504));
+                    break;
+                default:
+                    showRetryDialog(context.getString(R.string.network_with_error_code_unknown)
+                            + " " + response.code() + ".");
+                    break;
+            }
         }
     }
 

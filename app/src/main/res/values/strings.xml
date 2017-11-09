@@ -15,4 +15,33 @@
     <string name="wrong_url_format">Wrong url format. Url should begin with \'http\' or \'https\' prefix.</string>
     <string name="new_user_title">New user</string>
     <string name="new_user">New user has been created. You can login into your account now.</string>
+    <string name="network_with_error_code_400">400 Bad Request – The server cannot or will not process
+        the request due to something that is perceived to be a client error (e.g., malformed request syntax,
+        invalid request message framing, or deceptive request routing).</string>
+    <string name="network_with_error_code_401">401 Unauthorized – The server generating a 401 response MUST
+        send a WWW-Authenticate header field containing at least one challenge applicable to the
+        target resource.</string>
+    <string name="network_with_error_code_403">403 Forbidden – The request was valid, but the server
+        is refusing action. The user might not have the necessary permissions for a resource, or may
+        need an account of some sort.</string>
+    <string name="network_with_error_code_404">404 Not Found – The requested resource could not be
+        found but may be available in the future. Subsequent requests by the client are permissible.</string>
+    <string name="network_with_error_code_408">408 Request Timeout – he server timed out waiting for
+        the request. According to HTTP specifications: "The client did not produce a request within the time
+        that the server was prepared to wait. The client MAY repeat the request without modifications
+        at any later time.</string>
+    <string name="network_with_error_code_410">410 Gone – Indicates that the resource requested is
+        no longer available and will not be available again. This should be used when a resource
+        has been intentionally removed and the resource should be purged.</string>
+    <string name="network_with_error_code_500">500 Internal Server Error – The server encountered an
+        unexpected condition that prevented it from fulfilling the request.</string>
+    <string name="network_with_error_code_502">502 Bad Gateway – The server, while acting as a gateway
+        or proxy, received an invalid response from an inbound server it accessed while attempting to
+        fulfill the request.</string>
+    <string name="network_with_error_code_503">503 Service Unavailable –The server is currently unable to
+        handle the request due to a temporary overload or scheduled maintenance, which will likely be
+        alleviated after some delay.</string>
+    <string name="network_with_error_code_504">504 Gateway Timeout – The server was acting as a gateway
+        or proxy and did not receive a timely response from the upstream server.</string>
+    <string name="network_with_error_code_unknown">Unknown networking problem. More informations:</string>
 </resources>
