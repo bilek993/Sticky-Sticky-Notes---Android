@@ -1,5 +1,6 @@
 package com.jakubbilinski.stickystickynotesandroid.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
+import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
 import com.jakubbilinski.stickystickynotesandroid.networking.LoginNetworking;
 
 import butterknife.BindView;
@@ -69,11 +71,19 @@ public class LoginActivity extends AppCompatActivity {
         progressBarLogin.setVisibility(View.VISIBLE);
         disableFields();
 
+        String username = textInputEditTextUsername.getText().toString();
+        String password = textInputEditTextPassword.getText().toString();
+
         networking.Login(
                 textInputEditTextServerAddress.getText().toString(),
-                textInputEditTextUsername.getText().toString(),
-                textInputEditTextPassword.getText().toString(),
+                username, password,
                 () -> {
+                    LocalStorageHelper.setLogin(this, username);
+                    LocalStorageHelper.setPassword(this, password);
+
+                    Intent intent = new Intent(this, LandingActivity.class);
+                    startActivity(intent);
+
                     finish();
                     return null;
                 },
