@@ -14,6 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MainTheme">
+        <service
+            android:name=".helpers.NotesSynchronizationService"
+            android:exported="false"/>
         <activity
             android:name=".activities.LandingActivity"
             android:theme="@style/LandingTheme">

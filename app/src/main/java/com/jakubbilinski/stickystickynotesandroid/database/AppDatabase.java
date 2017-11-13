@@ -12,5 +12,6 @@ import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 
 @Database(entities = {NotesEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
+    public static String DatabaseName = "MainDB";
     public abstract NotesDao notesDao();
 }
