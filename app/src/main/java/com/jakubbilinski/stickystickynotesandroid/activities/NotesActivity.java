@@ -8,8 +8,10 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.adapters.NotesAdapter;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
+import com.jakubbilinski.stickystickynotesandroid.helpers.DateConverter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,8 +37,6 @@ public class NotesActivity extends AppCompatActivity {
     }
 
     private void setupRecycler() {
-        notesList.add(new NotesEntity("abc", "def"));
-
         notesAdapter = new NotesAdapter(notesList);
         recyclerViewNotes.setAdapter(notesAdapter);
         recyclerViewNotes.setLayoutManager(new StaggeredGridLayoutManager(
@@ -45,7 +45,8 @@ public class NotesActivity extends AppCompatActivity {
 
     @OnClick(R.id.floatingActionButtonAdd)
     void onAddButtonClick() {
-        notesList.add(new NotesEntity("eee", "fff"));
+        Calendar currentDate = Calendar.getInstance();
+        notesList.add(new NotesEntity(getString(R.string.empty_note_message), DateConverter.calendarToDate(currentDate)));
         notesAdapter.notifyDataSetChanged();
     }
 }

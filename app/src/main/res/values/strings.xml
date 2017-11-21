@@ -44,4 +44,5 @@
     <string name="network_with_error_code_504">504 Gateway Timeout – The server was acting as a gateway
         or proxy and did not receive a timely response from the upstream server.</string>
     <string name="network_with_error_code_unknown">Unknown networking problem. More informations:</string>
+    <string name="empty_note_message">Touch this note to change it.</string>
 </resources>
