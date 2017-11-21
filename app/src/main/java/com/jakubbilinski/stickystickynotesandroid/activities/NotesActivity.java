@@ -37,7 +37,7 @@ public class NotesActivity extends AppCompatActivity {
     }
 
     private void setupRecycler() {
-        notesAdapter = new NotesAdapter(notesList);
+        notesAdapter = new NotesAdapter(this, notesList);
         recyclerViewNotes.setAdapter(notesAdapter);
         recyclerViewNotes.setLayoutManager(new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL));

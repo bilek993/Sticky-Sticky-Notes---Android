@@ -1,5 +1,8 @@
 package com.jakubbilinski.stickystickynotesandroid.adapters;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +25,13 @@ import butterknife.ButterKnife;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
-    List<NotesEntity> notesList = new ArrayList<>();
+    private static final int COLORS_COUNT = 7;
 
-    public NotesAdapter(List<NotesEntity> notesList) {
+    private List<NotesEntity> notesList = new ArrayList<>();
+    private Context context;
+
+    public NotesAdapter(Context context, List<NotesEntity> notesList) {
+        this.context = context;
         this.notesList = notesList;
     }
 
@@ -39,6 +46,28 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     public void onBindViewHolder(NotesViewHolder holder, int position) {
         holder.textViewNoteContext.setText(notesList.get(position).getContext());
         holder.textViewDate.setText(notesList.get(position).getLastEditDate());
+        holder.cardViewNote.setCardBackgroundColor(generateColor(notesList.get(position).getId()));
+    }
+
+    public int generateColor(int id) {
+        switch (id%COLORS_COUNT) {
+            case 0:
+                return ContextCompat.getColor(context, R.color.color_note_0);
+            case 1:
+                return ContextCompat.getColor(context, R.color.color_note_1);
+            case 2:
+                return ContextCompat.getColor(context, R.color.color_note_2);
+            case 3:
+                return ContextCompat.getColor(context, R.color.color_note_3);
+            case 4:
+                return ContextCompat.getColor(context, R.color.color_note_4);
+            case 5:
+                return ContextCompat.getColor(context, R.color.color_note_5);
+            case 6:
+                return ContextCompat.getColor(context, R.color.color_note_6);
+            default:
+                return 0;
+        }
     }
 
     @Override
@@ -48,12 +77,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     class NotesViewHolder extends RecyclerView.ViewHolder {
 
+        CardView cardViewNote;
         TextView textViewNoteContext;
         TextView textViewDate;
 
         public NotesViewHolder(View itemView) {
             super(itemView);
 
+            cardViewNote = itemView.findViewById(R.id.cardViewNote);
             textViewNoteContext = itemView.findViewById(R.id.textViewNoteContext);
             textViewDate = itemView.findViewById(R.id.textViewDate);
         }
