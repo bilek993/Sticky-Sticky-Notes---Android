@@ -7,7 +7,7 @@
     tools:context="com.jakubbilinski.stickystickynotesandroid.activities.NotesActivity">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/floatingActionButtonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -16,7 +16,7 @@
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="@+id/RecyclerViewNotes"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/add" />
+        app:srcCompat="@drawable/add" android:focusable="true"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerViewNotes"

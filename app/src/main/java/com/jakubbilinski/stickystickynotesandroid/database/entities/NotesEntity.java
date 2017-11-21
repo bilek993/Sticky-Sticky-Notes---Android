@@ -19,8 +19,8 @@ public class NotesEntity {
     @ColumnInfo(name = "LastEditDate")
     private String lastEditDate;
 
-    public NotesEntity(int serverId, String context, String lastEditDate) {
-        this.serverId = serverId;
+    public NotesEntity(String context, String lastEditDate) {
+        this.serverId = -1;
         this.context = context;
         this.lastEditDate = lastEditDate;
     }
