@@ -47,6 +47,6 @@ public class NotesActivity extends AppCompatActivity {
     void onAddButtonClick() {
         Calendar currentDate = Calendar.getInstance();
         notesList.add(new NotesEntity(getString(R.string.empty_note_message), DateConverter.calendarToDate(currentDate)));
-        notesAdapter.notifyDataSetChanged();
+        notesAdapter.notifyItemInserted(notesList.size() - 1);
     }
 }
