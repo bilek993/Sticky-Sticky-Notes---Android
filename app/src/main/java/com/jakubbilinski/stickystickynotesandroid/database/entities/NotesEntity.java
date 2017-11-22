@@ -10,7 +10,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity
 public class NotesEntity {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int Id;
     @ColumnInfo(name = "ServerId")
     private int serverId;
