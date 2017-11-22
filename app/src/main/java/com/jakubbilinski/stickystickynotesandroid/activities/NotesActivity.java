@@ -1,6 +1,7 @@
 package com.jakubbilinski.stickystickynotesandroid.activities;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.jakubbilinski.stickystickynotesandroid.adapters.NotesAdapter;
 import com.jakubbilinski.stickystickynotesandroid.database.AppDatabase;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 import com.jakubbilinski.stickystickynotesandroid.helpers.DateConverter;
+import com.jakubbilinski.stickystickynotesandroid.helpers.IntentExtras;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,9 +94,19 @@ public class NotesActivity extends AppCompatActivity {
 
             notesList = notesEntities;
             notesAdapter = new NotesAdapter(NotesActivity.this, notesList);
+
             recyclerViewNotes.setAdapter(notesAdapter);
             recyclerViewNotes.setLayoutManager(new StaggeredGridLayoutManager(
                     2, StaggeredGridLayoutManager.VERTICAL));
+
+            notesAdapter.setOnItemClickListener((position, noteContext, lastEditDate, color) -> {
+                Intent intent = new Intent(NotesActivity.this, EditorActivity.class);
+                intent.putExtra(IntentExtras.NOTE_ID, position);
+                intent.putExtra(IntentExtras.NOTE_CONTEXT, noteContext);
+                intent.putExtra(IntentExtras.NOTE_DATE, lastEditDate);
+                intent.putExtra(IntentExtras.NOTE_COLOR, color);
+                startActivity(intent);
+            });
         }
     }
 }

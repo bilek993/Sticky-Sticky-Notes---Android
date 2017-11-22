@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
@@ -29,10 +30,19 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     private List<NotesEntity> notesList = new ArrayList<>();
     private Context context;
+    private OnItemClickListener onItemClickListener;
 
     public NotesAdapter(Context context, List<NotesEntity> notesList) {
         this.context = context;
         this.notesList = notesList;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onClick(int position, String noteContext, String lastEditDate, int color);
     }
 
     @Override
@@ -47,6 +57,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         holder.textViewNoteContext.setText(notesList.get(position).getContext());
         holder.textViewDate.setText(notesList.get(position).getLastEditDate());
         holder.cardViewNote.setCardBackgroundColor(generateColor(notesList.get(position).getId()));
+
+        holder.cardViewNote.setOnClickListener(view -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onClick(holder.getAdapterPosition(),
+                        holder.textViewNoteContext.getText().toString(),
+                        holder.textViewDate.getText().toString(),
+                        generateColor(notesList.get(position).getId()));
+            }
+        });
     }
 
     public int generateColor(int id) {
@@ -81,7 +100,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         TextView textViewNoteContext;
         TextView textViewDate;
 
-        public NotesViewHolder(View itemView) {
+        NotesViewHolder(View itemView) {
             super(itemView);
 
             cardViewNote = itemView.findViewById(R.id.cardViewNote);
