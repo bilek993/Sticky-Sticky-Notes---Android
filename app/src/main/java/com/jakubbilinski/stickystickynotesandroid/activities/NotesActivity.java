@@ -79,6 +79,22 @@ public class NotesActivity extends AppCompatActivity {
         new AddNewNote().execute(newNote);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+
+            if (extras != null) {
+                int id = extras.getInt(IntentExtras.NOTE_ID);
+                notesList.get(id).setContext(extras.getString(IntentExtras.NOTE_CONTEXT));
+                notesAdapter.notifyItemChanged(id);
+            }
+        }
+    }
+
+    // Inner classes (Async tasks)
     private class AddNewNote extends AsyncTask<NotesEntity, Void, List<NotesEntity>> {
 
         @Override
@@ -103,21 +119,6 @@ public class NotesActivity extends AppCompatActivity {
             notesList = notesEntities;
             notesAdapter.setNotesList(notesEntities);
             notesAdapter.notifyItemInserted(notesList.size() - 1);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-
-            if (extras != null) {
-                int id = extras.getInt(IntentExtras.NOTE_ID);
-                notesList.get(id).setContext(extras.getString(IntentExtras.NOTE_CONTEXT));
-                notesAdapter.notifyItemChanged(id);
-            }
         }
     }
 
