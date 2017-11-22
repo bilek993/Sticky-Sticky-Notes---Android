@@ -45,4 +45,9 @@
         or proxy and did not receive a timely response from the upstream server.</string>
     <string name="network_with_error_code_unknown">Unknown networking problem. More informations:</string>
     <string name="empty_note_message">Touch this note to change it.</string>
+
+
+    <!-- Strings used as variables or as constant values -->
+    <string name="animation_transition_notes_to_editor">NOTES_TO_EDITOR</string>
+    <string name="animation_transition_note_background">NOTE_BACKGROUND</string>
 </resources>
