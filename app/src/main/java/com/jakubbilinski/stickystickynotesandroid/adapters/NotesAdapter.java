@@ -42,7 +42,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     }
 
     public interface OnItemClickListener {
-        void onClick(int position, String noteContext, String lastEditDate, int color);
+        void onClick(int position, String noteContext, String lastEditDate, int color, CardView cardView);
     }
 
     @Override
@@ -63,7 +63,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                 onItemClickListener.onClick(holder.getAdapterPosition(),
                         holder.textViewNoteContext.getText().toString(),
                         holder.textViewDate.getText().toString(),
-                        generateColor(notesList.get(position).getId()));
+                        generateColor(notesList.get(position).getId()),
+                        holder.cardViewNote);
             }
         });
     }

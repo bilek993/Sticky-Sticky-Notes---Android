@@ -5,6 +5,7 @@
     android:id="@+id/ConstraintLayoutEditor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionName="@string/animation_transition_note_background"
     tools:context="com.jakubbilinski.stickystickynotesandroid.activities.EditorActivity">
 
     <EditText
@@ -18,6 +19,7 @@
         android:background="@android:color/transparent"
         android:gravity="start"
         android:inputType="textMultiLine"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

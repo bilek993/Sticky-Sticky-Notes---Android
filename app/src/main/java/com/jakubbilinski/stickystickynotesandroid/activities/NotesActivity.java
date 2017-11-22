@@ -3,10 +3,13 @@ package com.jakubbilinski.stickystickynotesandroid.activities;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.adapters.NotesAdapter;
@@ -99,13 +102,19 @@ public class NotesActivity extends AppCompatActivity {
             recyclerViewNotes.setLayoutManager(new StaggeredGridLayoutManager(
                     2, StaggeredGridLayoutManager.VERTICAL));
 
-            notesAdapter.setOnItemClickListener((position, noteContext, lastEditDate, color) -> {
+            notesAdapter.setOnItemClickListener((position, noteContext, lastEditDate, color, cardView) -> {
                 Intent intent = new Intent(NotesActivity.this, EditorActivity.class);
+
+                intent.putExtra(getString(R.string.animation_transition_notes_to_editor), position);
                 intent.putExtra(IntentExtras.NOTE_ID, position);
                 intent.putExtra(IntentExtras.NOTE_CONTEXT, noteContext);
                 intent.putExtra(IntentExtras.NOTE_DATE, lastEditDate);
                 intent.putExtra(IntentExtras.NOTE_COLOR, color);
-                startActivity(intent);
+
+                Pair<View, String> p1 = Pair.create((View) cardView, getString(R.string.animation_transition_note_background));
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(NotesActivity.this, p1);
+
+                startActivity(intent, options.toBundle());
             });
         }
     }
