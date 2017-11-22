@@ -1,5 +1,6 @@
 package com.jakubbilinski.stickystickynotesandroid.activities;
 
+import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -34,6 +36,8 @@ public class NotesActivity extends AppCompatActivity {
 
     private NotesAdapter notesAdapter;
     private List<NotesEntity> notesList = new ArrayList<>();
+
+    private final int REQUEST_CODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +106,21 @@ public class NotesActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+
+            if (extras != null) {
+                int id = extras.getInt(IntentExtras.NOTE_ID);
+                notesList.get(id).setContext(extras.getString(IntentExtras.NOTE_CONTEXT));
+                notesAdapter.notifyItemChanged(id);
+            }
+        }
+    }
+
     private class GetAllNotes extends AsyncTask<Void, Void, List<NotesEntity>> {
 
         @Override
@@ -114,6 +133,9 @@ public class NotesActivity extends AppCompatActivity {
             return listOfNotes;
         }
 
+        // Suppressing error message due to the bug in latest Android Build Tools
+        // More info: https://issuetracker.google.com/issues/37130193
+        @SuppressLint("RestrictedApi")
         @Override
         protected void onPostExecute(List<NotesEntity> notesEntities) {
             super.onPostExecute(notesEntities);
@@ -134,10 +156,10 @@ public class NotesActivity extends AppCompatActivity {
                 intent.putExtra(IntentExtras.NOTE_DATE, lastEditDate);
                 intent.putExtra(IntentExtras.NOTE_COLOR, color);
 
-                Pair<View, String> p1 = Pair.create((View) cardView, getString(R.string.animation_transition_note_background));
+                Pair<View, String> p1 = Pair.create(cardView, getString(R.string.animation_transition_note_background));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(NotesActivity.this, p1);
 
-                startActivity(intent, options.toBundle());
+                startActivityForResult(intent, REQUEST_CODE, options.toBundle());
             });
         }
     }

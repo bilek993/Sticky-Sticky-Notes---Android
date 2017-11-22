@@ -3,6 +3,7 @@ package com.jakubbilinski.stickystickynotesandroid.database.daos;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 
@@ -19,4 +20,7 @@ public interface NotesDao {
 
     @Insert
     void Insert(NotesEntity note);
+
+    @Update
+    void Update(NotesEntity note);
 }
