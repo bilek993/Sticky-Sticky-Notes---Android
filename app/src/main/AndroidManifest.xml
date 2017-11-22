@@ -16,7 +16,8 @@
         android:theme="@style/MainTheme">
         <service
             android:name=".helpers.NotesSynchronizationService"
-            android:exported="false"/>
+            android:exported="false" />
+
         <activity
             android:name=".activities.LandingActivity"
             android:theme="@style/LandingTheme">
@@ -29,7 +30,8 @@
         <activity
             android:name=".activities.LoginActivity"
             android:theme="@style/LoginTheme" />
-        <activity android:name=".activities.NotesActivity"></activity>
+        <activity android:name=".activities.NotesActivity" />
+        <activity android:name=".activities.EditorActivity"></activity>
     </application>
 
 </manifest>
