@@ -89,12 +89,14 @@ public class NotesActivity extends AppCompatActivity {
             if (extras != null) {
                 int id = extras.getInt(IntentExtras.NOTE_ID);
                 notesList.get(id).setContext(extras.getString(IntentExtras.NOTE_CONTEXT));
+                notesList.get(id).setLastEditDate(extras.getString(IntentExtras.NOTE_DATE));
                 notesAdapter.notifyItemChanged(id);
+
+                new UpdateNote().execute(notesList.get(id));
             }
         }
     }
 
-    // Inner classes (Async tasks)
     private class AddNewNote extends AsyncTask<NotesEntity, Void, List<NotesEntity>> {
 
         @Override
@@ -162,6 +164,23 @@ public class NotesActivity extends AppCompatActivity {
 
                 startActivityForResult(intent, REQUEST_CODE, options.toBundle());
             });
+        }
+    }
+
+    private class UpdateNote extends AsyncTask<NotesEntity, Void, Void> {
+
+        @Override
+        protected Void doInBackground(NotesEntity... notesEntities) {
+            if (notesEntities.length != 1) {
+                return null;
+            }
+
+            AppDatabase database = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, AppDatabase.DatabaseName).build();
+            database.notesDao().Update(notesEntities[0]);
+            database.close();
+
+            return null;
         }
     }
 }
