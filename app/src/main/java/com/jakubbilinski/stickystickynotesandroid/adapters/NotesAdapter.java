@@ -37,6 +37,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         this.notesList = notesList;
     }
 
+    public void setNotesList(List<NotesEntity> notesList) {
+        this.notesList = notesList;
+    }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }

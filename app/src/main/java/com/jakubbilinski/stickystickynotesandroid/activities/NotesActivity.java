@@ -73,27 +73,32 @@ public class NotesActivity extends AppCompatActivity {
                 DateConverter.calendarToDate(currentDate));
 
         new AddNewNote().execute(newNote);
-
-        notesList.add(newNote);
-        notesAdapter.notifyItemInserted(notesList.size() - 1);
     }
 
-    private class AddNewNote extends AsyncTask<NotesEntity, Void, Void> {
+    private class AddNewNote extends AsyncTask<NotesEntity, Void, List<NotesEntity>> {
 
         @Override
-        protected Void doInBackground(NotesEntity... notesEntities) {
-            if (notesEntities.length <= 0) {
+        protected List<NotesEntity> doInBackground(NotesEntity... notesEntities) {
+            if (notesEntities.length != 1) {
                 return null;
             }
 
             AppDatabase database = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, AppDatabase.DatabaseName).build();
-            for (NotesEntity newNote : notesEntities) {
-                database.notesDao().Insert(newNote);
-            }
+            database.notesDao().Insert(notesEntities[0]);
+            List<NotesEntity> listOfNotes = database.notesDao().getAll();
             database.close();
 
-            return null;
+            return listOfNotes;
+        }
+
+        @Override
+        protected void onPostExecute(List<NotesEntity> notesEntities) {
+            super.onPostExecute(notesEntities);
+
+            notesList = notesEntities;
+            notesAdapter.setNotesList(notesEntities);
+            notesAdapter.notifyItemInserted(notesList.size() - 1);
         }
     }
 
