@@ -65,8 +65,7 @@ public class LandingActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e("test123", "IT WORKS!!!!!!!!!!!");
-
+            unregisterReceiver(receiver);
             Intent intentNotes = new Intent(LandingActivity.this, NotesActivity.class);
             startActivity(intentNotes);
             finish();
