@@ -98,6 +98,10 @@ public class NotesSynchronizationService extends IntentService{
         listOfNotesToBeAdded = getNotesForAdding(listOfAllNote);
         itemsToBeAdded = listOfNotesToBeAdded.size();
 
-        addNotes(listOfNotesToBeAdded);
+        if (itemsToBeAdded != 0) {
+            addNotes(listOfNotesToBeAdded);
+        }  else {
+            updateNotes(listOfNotesToBeUpdated);
+        }
     }
 }
