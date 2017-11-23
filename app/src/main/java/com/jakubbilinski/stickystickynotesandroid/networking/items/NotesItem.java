@@ -2,6 +2,7 @@ package com.jakubbilinski.stickystickynotesandroid.networking.items;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 
 /**
  * Created by jbili on 10.11.2017.
@@ -41,5 +42,11 @@ public class NotesItem {
 
     public void setLastEditDate(String lastEditDate) {
         this.lastEditDate = lastEditDate;
+    }
+
+    public NotesItem(NotesEntity notesEntity) {
+        id = notesEntity.getServerId();
+        context = notesEntity.getContext();
+        lastEditDate = notesEntity.getLastEditDate();
     }
 }
