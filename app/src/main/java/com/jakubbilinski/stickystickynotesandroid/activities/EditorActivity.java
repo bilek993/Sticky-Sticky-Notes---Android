@@ -1,9 +1,9 @@
 package com.jakubbilinski.stickystickynotesandroid.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,7 +16,6 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Converter;
 
 public class EditorActivity extends AppCompatActivity {
 

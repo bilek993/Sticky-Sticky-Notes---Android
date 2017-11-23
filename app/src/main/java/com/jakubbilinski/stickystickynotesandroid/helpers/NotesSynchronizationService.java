@@ -2,15 +2,11 @@ package com.jakubbilinski.stickystickynotesandroid.helpers;
 
 import android.app.IntentService;
 import android.arch.persistence.room.Room;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
 import com.jakubbilinski.stickystickynotesandroid.database.AppDatabase;
-import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 
-import java.util.List;
 import java.util.Random;
 
 /**
