@@ -84,6 +84,10 @@ public class NotesSynchronizationService extends IntentService{
         }
 
         networking.updateNotes(notesItemsConverted, () -> {
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction(IntentExtras.ACTION_BROADCAST_RESPONSE);
+            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+            sendBroadcast(broadcastIntent);
             stopSelf();
             return null;
         });
@@ -104,6 +108,10 @@ public class NotesSynchronizationService extends IntentService{
         }  else if (listOfNotesToBeUpdated.size() != 0) {
             updateNotes(listOfNotesToBeUpdated);
         } else {
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction(IntentExtras.ACTION_BROADCAST_RESPONSE);
+            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+            sendBroadcast(broadcastIntent);
             stopSelf();
         }
     }

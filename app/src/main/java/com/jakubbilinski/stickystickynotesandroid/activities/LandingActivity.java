@@ -1,12 +1,17 @@
 package com.jakubbilinski.stickystickynotesandroid.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.animations.ImageViewLoopOpacityAnimator;
+import com.jakubbilinski.stickystickynotesandroid.helpers.IntentExtras;
 import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
 import com.jakubbilinski.stickystickynotesandroid.helpers.NotesSynchronizationService;
 
@@ -19,6 +24,7 @@ public class LandingActivity extends AppCompatActivity {
     ImageView imageViewBackgroundIcon;
 
     private ImageViewLoopOpacityAnimator backgroundAnimator;
+    private ResponseReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +38,16 @@ public class LandingActivity extends AppCompatActivity {
         if (!checkCredentials()) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
         } else {
+            IntentFilter filter = new IntentFilter(IntentExtras.ACTION_BROADCAST_RESPONSE);
+            filter.addCategory(Intent.CATEGORY_DEFAULT);
+            receiver = new ResponseReceiver();
+            registerReceiver(receiver, filter);
+
             Intent syncIntentService = new Intent(this, NotesSynchronizationService.class);
             startService(syncIntentService);
-
-            Intent intent = new Intent(this, NotesActivity.class);
-            startActivity(intent);
         }
-        finish();
     }
 
     private void playBackgroundAnimation() {
@@ -51,5 +59,17 @@ public class LandingActivity extends AppCompatActivity {
     private boolean checkCredentials () {
         return !(LocalStorageHelper.getLogin(this) == null ||
                 LocalStorageHelper.getPassword(this) == null);
+    }
+
+    public class ResponseReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e("test123", "IT WORKS!!!!!!!!!!!");
+
+            Intent intentNotes = new Intent(LandingActivity.this, NotesActivity.class);
+            startActivity(intentNotes);
+            finish();
+        }
     }
 }
