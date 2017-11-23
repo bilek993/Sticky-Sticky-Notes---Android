@@ -14,6 +14,7 @@ import com.jakubbilinski.stickystickynotesandroid.networking.items.NotesItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
 
 /**
  * Created by jbili on 13.11.2017.
@@ -83,7 +84,7 @@ public class NotesSynchronizationService extends IntentService{
         }
 
         networking.updateNotes(notesItemsConverted, () -> {
-            // TODO: Add getting new list
+            stopSelf();
             return null;
         });
     }
@@ -100,8 +101,10 @@ public class NotesSynchronizationService extends IntentService{
 
         if (itemsToBeAdded != 0) {
             addNotes(listOfNotesToBeAdded);
-        }  else {
+        }  else if (listOfNotesToBeUpdated.size() != 0) {
             updateNotes(listOfNotesToBeUpdated);
+        } else {
+            stopSelf();
         }
     }
 }
