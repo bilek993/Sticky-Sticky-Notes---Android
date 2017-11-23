@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.animations.ImageViewLoopOpacityAnimator;
 import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
+import com.jakubbilinski.stickystickynotesandroid.helpers.NotesSynchronizationService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,9 @@ public class LandingActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else {
+            Intent syncIntentService = new Intent(this, NotesSynchronizationService.class);
+            startService(syncIntentService);
+
             Intent intent = new Intent(this, NotesActivity.class);
             startActivity(intent);
         }
