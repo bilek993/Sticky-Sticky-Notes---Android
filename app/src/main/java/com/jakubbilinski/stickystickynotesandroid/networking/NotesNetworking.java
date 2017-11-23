@@ -6,7 +6,9 @@ import android.os.AsyncTask;
 import com.jakubbilinski.stickystickynotesandroid.database.AppDatabase;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 import com.jakubbilinski.stickystickynotesandroid.networking.items.NotesItem;
+import com.jakubbilinski.stickystickynotesandroid.networking.items.ResultItem;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import retrofit2.Call;
@@ -48,6 +50,31 @@ public class NotesNetworking {
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
+                try {
+                    after.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void updateNotes(List<NotesItem> notesItems, Callable<Void> after) {
+        RestClient restClient = RestSystem.buildWithAuthentication(context);
+        Call<ResultItem> call = restClient.updateNotes(notesItems);
+
+        call.enqueue(new Callback<ResultItem>() {
+            @Override
+            public void onResponse(Call<ResultItem> call, Response<ResultItem> response) {
+                try {
+                    after.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResultItem> call, Throwable t) {
                 try {
                     after.call();
                 } catch (Exception e) {

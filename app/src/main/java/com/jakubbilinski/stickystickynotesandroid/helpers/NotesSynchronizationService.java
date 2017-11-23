@@ -25,6 +25,8 @@ public class NotesSynchronizationService extends IntentService{
 
     private NotesNetworking networking;
     private int itemsToBeAdded;
+    private List<NotesEntity> listOfNotesToBeUpdated;
+    private List<NotesEntity> listOfNotesToBeAdded;
 
     public NotesSynchronizationService() {
         super(String.valueOf((new Random()).nextInt())); // Random name generator for service
@@ -66,11 +68,24 @@ public class NotesSynchronizationService extends IntentService{
                 itemsToBeAdded--;
 
                 if (itemsToBeAdded <= 0) {
-                    // TODO: Call function for updating notes
+                    updateNotes(listOfNotesToBeUpdated);
                 }
                 return null;
             });
         }
+    }
+
+    private void updateNotes (List<NotesEntity> noteToBeUpdated) {
+        List<NotesItem> notesItemsConverted = new ArrayList<>();
+
+        for (int i = 0; i < noteToBeUpdated.size(); i++) {
+            notesItemsConverted.add(new NotesItem(noteToBeUpdated.get(i)));
+        }
+
+        networking.updateNotes(notesItemsConverted, () -> {
+            // TODO: Add getting new list
+            return null;
+        });
     }
 
     @Override
@@ -79,8 +94,8 @@ public class NotesSynchronizationService extends IntentService{
         networking = new NotesNetworking(this, database);
 
         List<NotesEntity> listOfAllNote = database.notesDao().getAll();
-        List<NotesEntity> listOfNotesToBeUpdated = getNotesForUpdate(listOfAllNote);
-        List<NotesEntity> listOfNotesToBeAdded = getNotesForAdding(listOfAllNote);
+        listOfNotesToBeUpdated = getNotesForUpdate(listOfAllNote);
+        listOfNotesToBeAdded = getNotesForAdding(listOfAllNote);
         itemsToBeAdded = listOfNotesToBeAdded.size();
 
         addNotes(listOfNotesToBeAdded);
