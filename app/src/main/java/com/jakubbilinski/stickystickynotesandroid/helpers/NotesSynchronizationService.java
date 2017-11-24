@@ -28,6 +28,7 @@ public class NotesSynchronizationService extends IntentService{
     private int itemsToBeAdded;
     private List<NotesEntity> listOfNotesToBeUpdated;
     private List<NotesEntity> listOfNotesToBeAdded;
+    private List<NotesEntity> listOfAllNotes;
 
     public NotesSynchronizationService() {
         super(String.valueOf((new Random()).nextInt())); // Random name generator for service
@@ -40,10 +41,10 @@ public class NotesSynchronizationService extends IntentService{
         }
     }
 
-    private List<NotesEntity> getNotesForUpdate(List<NotesEntity> listOfNotes) {
+    private List<NotesEntity> getNotesForUpdate() {
         List<NotesEntity> notesToBeUpdated = new ArrayList<>();
 
-        for (NotesEntity note : listOfNotes) {
+        for (NotesEntity note : listOfAllNotes) {
             if (note.getServerId() != -1) {
                 notesToBeUpdated.add(note);
             }
@@ -51,10 +52,10 @@ public class NotesSynchronizationService extends IntentService{
         return notesToBeUpdated;
     }
 
-    private List<NotesEntity> getNotesForAdding(List<NotesEntity> listOfNotes) {
+    private List<NotesEntity> getNotesForAdding() {
         List<NotesEntity> notesToBeAdded = new ArrayList<>();
 
-        for (NotesEntity note : listOfNotes) {
+        for (NotesEntity note : listOfAllNotes) {
             if (note.getServerId() == -1) {
                 notesToBeAdded.add(note);
             }
@@ -62,25 +63,25 @@ public class NotesSynchronizationService extends IntentService{
         return notesToBeAdded;
     }
 
-    private void addNotes (List<NotesEntity> noteToBeAdded) {
-        for (int i = 0; i < noteToBeAdded.size(); i++) {
-            NotesItem notesItem = new NotesItem(noteToBeAdded.get(i));
-            networking.addNote(notesItem, noteToBeAdded.get(i), () -> {
+    private void addNotes () {
+        for (int i = 0; i < listOfNotesToBeAdded.size(); i++) {
+            NotesItem notesItem = new NotesItem(listOfNotesToBeAdded.get(i));
+            networking.addNote(notesItem, listOfNotesToBeAdded.get(i), () -> {
                 itemsToBeAdded--;
 
                 if (itemsToBeAdded <= 0) {
-                    updateNotes(listOfNotesToBeUpdated);
+                    updateNotes();
                 }
                 return null;
             });
         }
     }
 
-    private void updateNotes (List<NotesEntity> noteToBeUpdated) {
+    private void updateNotes () {
         List<NotesItem> notesItemsConverted = new ArrayList<>();
 
-        for (int i = 0; i < noteToBeUpdated.size(); i++) {
-            notesItemsConverted.add(new NotesItem(noteToBeUpdated.get(i)));
+        for (int i = 0; i < listOfNotesToBeUpdated.size(); i++) {
+            notesItemsConverted.add(new NotesItem(listOfNotesToBeUpdated.get(i)));
         }
 
         networking.updateNotes(notesItemsConverted, () -> {
@@ -88,9 +89,13 @@ public class NotesSynchronizationService extends IntentService{
             broadcastIntent.setAction(IntentExtras.ACTION_BROADCAST_RESPONSE);
             broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
             sendBroadcast(broadcastIntent);
-            stopSelf();
+            getNotesFromServer();
             return null;
         });
+    }
+
+    private void getNotesFromServer() {
+
     }
 
     @Override
@@ -98,21 +103,21 @@ public class NotesSynchronizationService extends IntentService{
         setupDatabase();
         networking = new NotesNetworking(this, database);
 
-        List<NotesEntity> listOfAllNote = database.notesDao().getAll();
-        listOfNotesToBeUpdated = getNotesForUpdate(listOfAllNote);
-        listOfNotesToBeAdded = getNotesForAdding(listOfAllNote);
+        listOfAllNotes = database.notesDao().getAll();
+        listOfNotesToBeUpdated = getNotesForUpdate();
+        listOfNotesToBeAdded = getNotesForAdding();
         itemsToBeAdded = listOfNotesToBeAdded.size();
 
         if (itemsToBeAdded != 0) {
-            addNotes(listOfNotesToBeAdded);
+            addNotes();
         }  else if (listOfNotesToBeUpdated.size() != 0) {
-            updateNotes(listOfNotesToBeUpdated);
+            updateNotes();
         } else {
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction(IntentExtras.ACTION_BROADCAST_RESPONSE);
             broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
             sendBroadcast(broadcastIntent);
-            stopSelf();
+            getNotesFromServer();
         }
     }
 }
