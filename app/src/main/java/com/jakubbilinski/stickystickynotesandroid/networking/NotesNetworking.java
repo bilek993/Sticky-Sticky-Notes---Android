@@ -37,7 +37,7 @@ public class NotesNetworking {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 try {
-                    if (response.body() != null) {
+                    if (response.isSuccessful() && response.body() != null) {
                         notesEntity.setServerId(response.body());
                         new UpdateNoteWithId().execute(notesEntity);
                     }
