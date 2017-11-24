@@ -21,6 +21,12 @@ public interface NotesDao {
     @Insert
     void Insert(NotesEntity note);
 
+    @Insert
+    void Insert(List<NotesEntity> notes);
+
     @Update
     void Update(NotesEntity note);
+
+    @Update
+    void Update(List<NotesEntity> notes);
 }

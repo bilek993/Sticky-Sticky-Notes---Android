@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.jakubbilinski.stickystickynotesandroid.networking.items.NotesItem;
+
 /**
  * Created by jbili on 13.11.2017.
  */
@@ -23,6 +25,12 @@ public class NotesEntity {
         this.serverId = -1;
         this.context = context;
         this.lastEditDate = lastEditDate;
+    }
+
+    public NotesEntity(NotesItem notesItem) {
+        this.serverId = notesItem.getId();
+        this.context = notesItem.getContext();
+        this.lastEditDate = notesItem.getLastEditDate();
     }
 
     public int getId() {

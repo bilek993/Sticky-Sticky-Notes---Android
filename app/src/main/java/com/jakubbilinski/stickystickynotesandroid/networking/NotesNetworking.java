@@ -8,6 +8,7 @@ import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 import com.jakubbilinski.stickystickynotesandroid.networking.items.NotesItem;
 import com.jakubbilinski.stickystickynotesandroid.networking.items.ResultItem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -91,6 +92,10 @@ public class NotesNetworking {
         call.enqueue(new Callback<List<NotesItem>>() {
             @Override
             public void onResponse(Call<List<NotesItem>> call, Response<List<NotesItem>> response) {
+                if (response.isSuccessful()) {
+                    new UpdateLocalNotes().execute(response.body());
+                }
+
                 try {
                     after.call();
                 } catch (Exception e) {
@@ -107,6 +112,49 @@ public class NotesNetworking {
                 }
             }
         });
+    }
+
+    private class UpdateLocalNotes extends AsyncTask<List<NotesItem>, Void, Void> {
+
+        @Override
+        protected Void doInBackground(List<NotesItem>[] lists) {
+            if (lists.length != 1) {
+                return null;
+            }
+
+            List<NotesItem> listOfItemsFromServer = lists[0];
+            List<NotesEntity> listOfLocalItems = database.notesDao().getAll();
+
+            List<NotesEntity> listOfNotesToBeUpdated = new ArrayList<>();
+            List<NotesEntity> listOfNotesToBeAdded = new ArrayList<>();
+
+            for (NotesItem notesItem : listOfItemsFromServer) {
+                boolean foundItemWithId = false;
+                NotesEntity foundEntity = null;
+
+                for (NotesEntity notesEntity : listOfLocalItems) {
+                    if (notesItem.getId() == notesEntity.getServerId()) {
+                        foundEntity = notesEntity;
+                        notesEntity.setContext(notesItem.getContext());
+                        notesEntity.setLastEditDate(notesEntity.getLastEditDate());
+                        foundItemWithId = true;
+                        break;
+                    }
+                }
+
+                if (foundItemWithId) {
+                    listOfNotesToBeUpdated.add(foundEntity);
+                } else {
+                    listOfNotesToBeAdded.add(new NotesEntity(notesItem.getContext(),
+                            notesItem.getLastEditDate()));
+                }
+            }
+
+            database.notesDao().Insert(listOfNotesToBeAdded);
+            database.notesDao().Update(listOfNotesToBeUpdated);
+
+            return null;
+        }
     }
 
     private class UpdateNoteWithId extends AsyncTask<NotesEntity, Void, Void> {
