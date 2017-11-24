@@ -1,5 +1,7 @@
 package com.jakubbilinski.stickystickynotesandroid.activities;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +24,8 @@ public class LandingActivity extends AppCompatActivity {
 
     @BindView(R.id.imageViewIconBackground)
     ImageView imageViewBackgroundIcon;
+    @BindView(R.id.imageViewIconSimple)
+    ImageView imageViewIconSimple;
 
     private ImageViewLoopOpacityAnimator backgroundAnimator;
     private ResponseReceiver receiver;
@@ -61,14 +65,41 @@ public class LandingActivity extends AppCompatActivity {
                 LocalStorageHelper.getPassword(this) == null);
     }
 
+    private void hideLogo() {
+        ValueAnimator animatior = ValueAnimator.ofFloat(1f, 0f);
+        animatior.addUpdateListener((animation) -> {
+            imageViewIconSimple.setAlpha((float) animation.getAnimatedValue());
+        });
+        animatior.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                Intent intentNotes = new Intent(LandingActivity.this, NotesActivity.class);
+                startActivity(intentNotes);
+                finish();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+            }
+        });
+        animatior.setDuration(1000);
+        animatior.start();
+    }
+
     public class ResponseReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             unregisterReceiver(receiver);
-            Intent intentNotes = new Intent(LandingActivity.this, NotesActivity.class);
-            startActivity(intentNotes);
-            finish();
+            LandingActivity.this.hideLogo();
         }
     }
 }
