@@ -180,7 +180,7 @@ public class NotesNetworking {
     }
 
     private class NotesItemListWithCallableContainer {
-        public List<NotesItem> list;
-        public Callable<Void> callable;
+        List<NotesItem> list;
+        Callable<Void> callable;
     }
 }
