@@ -93,13 +93,17 @@ public class NotesNetworking {
             @Override
             public void onResponse(Call<List<NotesItem>> call, Response<List<NotesItem>> response) {
                 if (response.isSuccessful()) {
-                    new UpdateLocalNotes().execute(response.body());
-                }
+                    NotesItemListWithCallableContainer container = new NotesItemListWithCallableContainer();
+                    container.list = response.body();
+                    container.callable = after;
 
-                try {
-                    after.call();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    new UpdateLocalNotes().execute(container);
+                } else {
+                    try {
+                        after.call();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -114,15 +118,15 @@ public class NotesNetworking {
         });
     }
 
-    private class UpdateLocalNotes extends AsyncTask<List<NotesItem>, Void, Void> {
+    private class UpdateLocalNotes extends AsyncTask<NotesItemListWithCallableContainer, Void, Void> {
 
         @Override
-        protected Void doInBackground(List<NotesItem>[] lists) {
+        protected Void doInBackground(NotesItemListWithCallableContainer[] lists) {
             if (lists.length != 1) {
                 return null;
             }
 
-            List<NotesItem> listOfItemsFromServer = lists[0];
+            List<NotesItem> listOfItemsFromServer = lists[0].list;
             List<NotesEntity> listOfLocalItems = database.notesDao().getAll();
 
             List<NotesEntity> listOfNotesToBeUpdated = new ArrayList<>();
@@ -153,6 +157,12 @@ public class NotesNetworking {
             database.notesDao().Insert(listOfNotesToBeAdded);
             database.notesDao().Update(listOfNotesToBeUpdated);
 
+            try {
+                lists[0].callable.call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return null;
         }
     }
@@ -168,5 +178,10 @@ public class NotesNetworking {
             database.notesDao().Update(notesEntities[0]);
             return null;
         }
+    }
+
+    private class NotesItemListWithCallableContainer {
+        public List<NotesItem> list;
+        public Callable<Void> callable;
     }
 }
