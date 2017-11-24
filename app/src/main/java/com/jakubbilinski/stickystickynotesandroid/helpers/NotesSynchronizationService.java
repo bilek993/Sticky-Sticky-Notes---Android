@@ -95,7 +95,10 @@ public class NotesSynchronizationService extends IntentService{
     }
 
     private void getNotesFromServer() {
-
+        networking.getNotes(() -> {
+            stopSelf();
+            return null;
+        });
     }
 
     @Override

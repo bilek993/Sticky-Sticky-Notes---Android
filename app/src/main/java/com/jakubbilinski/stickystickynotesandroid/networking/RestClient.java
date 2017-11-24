@@ -8,6 +8,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 
@@ -28,4 +29,7 @@ public interface RestClient {
 
     @POST("/api/notes")
     Call<ResultItem> updateNotes(@Body List<NotesItem> note);
+
+    @GET("/api/notes")
+    Call<List<NotesItem>> getAllNotes();
 }

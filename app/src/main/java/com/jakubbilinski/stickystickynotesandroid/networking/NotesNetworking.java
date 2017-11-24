@@ -84,6 +84,31 @@ public class NotesNetworking {
         });
     }
 
+    public void getNotes(Callable<Void> after) {
+        RestClient restClient = RestSystem.buildWithAuthentication(context);
+        Call<List<NotesItem>> call = restClient.getAllNotes();
+
+        call.enqueue(new Callback<List<NotesItem>>() {
+            @Override
+            public void onResponse(Call<List<NotesItem>> call, Response<List<NotesItem>> response) {
+                try {
+                    after.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<NotesItem>> call, Throwable t) {
+                try {
+                    after.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     private class UpdateNoteWithId extends AsyncTask<NotesEntity, Void, Void> {
 
         @Override
