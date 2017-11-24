@@ -149,8 +149,7 @@ public class NotesNetworking {
                 if (foundItemWithId) {
                     listOfNotesToBeUpdated.add(foundEntity);
                 } else {
-                    listOfNotesToBeAdded.add(new NotesEntity(notesItem.getContext(),
-                            notesItem.getLastEditDate()));
+                    listOfNotesToBeAdded.add(new NotesEntity(notesItem));
                 }
             }
 
