@@ -13,6 +13,6 @@ public class Base64Converter {
     public static String encode(String input) throws UnsupportedEncodingException {
         byte[] valueBytes = input.getBytes("UTF-8");
         byte[] result = Base64.encode(valueBytes, Base64.DEFAULT) ;
-        return new String(result, "UTF-8");
+        return new String(result, "UTF-8").trim().replace("\r","");
     }
 }
