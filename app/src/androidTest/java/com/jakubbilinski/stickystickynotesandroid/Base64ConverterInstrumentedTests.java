@@ -22,19 +22,19 @@ public class Base64ConverterInstrumentedTests {
     @Test
     public void encodeNumbers() throws UnsupportedEncodingException {
         String value = Base64Converter.encode("0123456789");
-        assertEquals(value, "MDEyMzQ1Njc4OQ==");
+        assertEquals("MDEyMzQ1Njc4OQ==", value);
     }
 
     @Test
     public void encodeLetters() throws UnsupportedEncodingException {
         String value = Base64Converter.encode("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        assertEquals(value, "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWg==");
+        assertEquals("YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWg==", value);
     }
 
     @Test
     public void encodeMixedWithSpecialSymbols() throws UnsupportedEncodingException {
         String value = Base64Converter.encode("!#$%^&*() a-Z{}:\"|,./");
-        assertEquals(value, "ISMkJV4mKigpIGEtWnt9OiJ8LC4v");
+        assertEquals("ISMkJV4mKigpIGEtWnt9OiJ8LC4v", value);
     }
 
     @Test
