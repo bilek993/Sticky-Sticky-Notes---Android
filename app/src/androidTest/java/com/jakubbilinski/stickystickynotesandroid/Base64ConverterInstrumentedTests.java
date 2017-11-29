@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 public class Base64ConverterInstrumentedTests {
     // Encoded strings for tests using this website:
     // https://www.base64encode.org/
-
     @Test
     public void encodeNumbers() throws UnsupportedEncodingException {
         String value = Base64Converter.encode("0123456789");
@@ -36,5 +35,11 @@ public class Base64ConverterInstrumentedTests {
     public void encodeMixedWithSpecialSymbols() throws UnsupportedEncodingException {
         String value = Base64Converter.encode("!#$%^&*() a-Z{}:\"|,./");
         assertEquals(value, "ISMkJV4mKigpIGEtWnt9OiJ8LC4v");
+    }
+
+    @Test
+    public void generateUserCredentialsForExampleUser() throws UnsupportedEncodingException {
+        String value = Base64Converter.generateUserCredentials("bilu", "zxc");
+        assertEquals("YmlsdTp6eGM=", value);
     }
 }

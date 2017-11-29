@@ -15,4 +15,9 @@ public class Base64Converter {
         byte[] result = Base64.encode(valueBytes, Base64.DEFAULT) ;
         return new String(result, "UTF-8").trim().replace("\r","");
     }
+
+    public static String generateUserCredentials(String login, String password) throws UnsupportedEncodingException {
+        String mergedLoginAndPassword = login + ':' + password;
+        return encode(mergedLoginAndPassword);
+    }
 }
