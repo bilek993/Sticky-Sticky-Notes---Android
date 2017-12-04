@@ -2,7 +2,10 @@ package com.jakubbilinski.stickystickynotesandroid.activities;
 
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -20,6 +23,7 @@ import com.jakubbilinski.stickystickynotesandroid.database.AppDatabase;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 import com.jakubbilinski.stickystickynotesandroid.helpers.DateConverter;
 import com.jakubbilinski.stickystickynotesandroid.helpers.IntentExtras;
+import com.jakubbilinski.stickystickynotesandroid.helpers.NotesSynchronizationService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +42,7 @@ public class NotesActivity extends AppCompatActivity {
 
     private NotesAdapter notesAdapter;
     private List<NotesEntity> notesList = new ArrayList<>();
+    private ResponseReceiver receiver;
 
     private final int REQUEST_CODE = 0;
 
@@ -81,6 +86,16 @@ public class NotesActivity extends AppCompatActivity {
                 R.color.primary,
                 R.color.color_note_5
         );
+
+        IntentFilter filter = new IntentFilter(IntentExtras.ACTION_BROADCAST_RESPONSE);
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        receiver = new ResponseReceiver();
+        registerReceiver(receiver, filter);
+
+        swipeRefreshLayoutNotes.setOnRefreshListener(() -> {
+            Intent syncIntentService = new Intent(this, NotesSynchronizationService.class);
+            startService(syncIntentService);
+        });
     }
 
     @OnClick(R.id.floatingActionButtonAdd)
@@ -177,6 +192,19 @@ public class NotesActivity extends AppCompatActivity {
 
                 startActivityForResult(intent, REQUEST_CODE, options.toBundle());
             });
+        }
+    }
+
+    private void refreshingServiceFinished() {
+        swipeRefreshLayoutNotes.setRefreshing(false);
+        new GetAllNotes().execute();
+    }
+
+    public class ResponseReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            NotesActivity.this.refreshingServiceFinished();
         }
     }
 
