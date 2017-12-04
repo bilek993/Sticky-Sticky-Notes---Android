@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -32,6 +33,8 @@ public class NotesActivity extends AppCompatActivity {
 
     @BindView(R.id.RecyclerViewNotes)
     RecyclerView recyclerViewNotes;
+    @BindView(R.id.swipeRefreshLayoutNotes)
+    SwipeRefreshLayout swipeRefreshLayoutNotes;
 
     private NotesAdapter notesAdapter;
     private List<NotesEntity> notesList = new ArrayList<>();

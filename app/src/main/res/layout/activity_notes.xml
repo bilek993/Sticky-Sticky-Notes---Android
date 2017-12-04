@@ -14,16 +14,22 @@
         android:layout_marginEnd="8dp"
         android:clickable="true"
         app:fabSize="normal"
-        app:layout_constraintBottom_toBottomOf="@+id/RecyclerViewNotes"
+        app:layout_constraintBottom_toBottomOf="@+id/swipeRefreshLayoutNotes"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/add" android:focusable="true"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/RecyclerViewNotes"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayoutNotes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RecyclerViewNotes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>
