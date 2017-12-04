@@ -54,6 +54,7 @@ public class NotesActivity extends AppCompatActivity {
         }
 
         setupRecycler();
+        setupSwipeLayout();
     }
 
     @Override
@@ -70,6 +71,16 @@ public class NotesActivity extends AppCompatActivity {
 
     private void setupRecycler() {
         new GetAllNotes().execute();
+    }
+
+    private void setupSwipeLayout() {
+        swipeRefreshLayoutNotes.setColorSchemeResources(
+                R.color.color_note_0,
+                R.color.primary_dark,
+                R.color.color_note_1,
+                R.color.primary,
+                R.color.color_note_5
+        );
     }
 
     @OnClick(R.id.floatingActionButtonAdd)
