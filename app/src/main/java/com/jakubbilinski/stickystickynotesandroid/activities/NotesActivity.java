@@ -23,7 +23,7 @@ import com.jakubbilinski.stickystickynotesandroid.database.AppDatabase;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 import com.jakubbilinski.stickystickynotesandroid.helpers.DateConverter;
 import com.jakubbilinski.stickystickynotesandroid.helpers.IntentExtras;
-import com.jakubbilinski.stickystickynotesandroid.helpers.NotesSynchronizationService;
+import com.jakubbilinski.stickystickynotesandroid.services.NotesSynchronizationService;
 
 import java.util.ArrayList;
 import java.util.Calendar;

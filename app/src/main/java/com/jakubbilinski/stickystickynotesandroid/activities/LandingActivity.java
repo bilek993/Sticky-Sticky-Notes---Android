@@ -8,14 +8,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.animations.ImageViewLoopOpacityAnimator;
 import com.jakubbilinski.stickystickynotesandroid.helpers.IntentExtras;
 import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
-import com.jakubbilinski.stickystickynotesandroid.helpers.NotesSynchronizationService;
+import com.jakubbilinski.stickystickynotesandroid.services.NotesSynchronizationService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.jakubbilinski.stickystickynotesandroid.helpers;
+package com.jakubbilinski.stickystickynotesandroid.services;
 
 import android.app.IntentService;
 import android.arch.persistence.room.Room;
@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.jakubbilinski.stickystickynotesandroid.database.AppDatabase;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
+import com.jakubbilinski.stickystickynotesandroid.helpers.IntentExtras;
 import com.jakubbilinski.stickystickynotesandroid.networking.NotesNetworking;
 import com.jakubbilinski.stickystickynotesandroid.networking.items.NotesItem;
 
