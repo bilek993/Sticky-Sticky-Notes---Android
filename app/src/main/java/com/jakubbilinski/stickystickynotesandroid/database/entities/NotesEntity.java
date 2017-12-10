@@ -20,17 +20,21 @@ public class NotesEntity {
     private String context;
     @ColumnInfo(name = "LastEditDate")
     private String lastEditDate;
+    @ColumnInfo(name = "Removed")
+    private boolean removed;
 
     public NotesEntity(String context, String lastEditDate) {
         this.serverId = -1;
         this.context = context;
         this.lastEditDate = lastEditDate;
+        this.removed = false;
     }
 
     public NotesEntity(NotesItem notesItem) {
         this.serverId = notesItem.getId();
         this.context = notesItem.getContext();
         this.lastEditDate = notesItem.getLastEditDate();
+        this.removed = false;
     }
 
     public int getId() {
@@ -63,5 +67,13 @@ public class NotesEntity {
 
     public void setLastEditDate(String lastEditDate) {
         this.lastEditDate = lastEditDate;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
     }
 }

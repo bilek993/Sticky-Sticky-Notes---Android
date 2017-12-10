@@ -38,7 +38,9 @@ public class NotesSynchronizationService extends IntentService{
     private void setupDatabase() {
         if (database == null) {
             database = Room.databaseBuilder(this,
-                    AppDatabase.class, AppDatabase.DatabaseName).build();
+                    AppDatabase.class, AppDatabase.DatabaseName)
+                    .addMigrations(AppDatabase.MIGRATION_1_2)
+                    .build();
         }
     }
 

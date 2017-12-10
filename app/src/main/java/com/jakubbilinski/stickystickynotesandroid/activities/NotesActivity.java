@@ -134,7 +134,9 @@ public class NotesActivity extends AppCompatActivity {
             }
 
             AppDatabase database = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, AppDatabase.DatabaseName).build();
+                    AppDatabase.class, AppDatabase.DatabaseName)
+                    .addMigrations(AppDatabase.MIGRATION_1_2)
+                    .build();
             database.notesDao().Insert(notesEntities[0]);
             List<NotesEntity> listOfNotes = database.notesDao().getAll();
             database.close();
@@ -157,7 +159,9 @@ public class NotesActivity extends AppCompatActivity {
         @Override
         protected List<NotesEntity> doInBackground(Void... voids) {
             AppDatabase database = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, AppDatabase.DatabaseName).build();
+                    AppDatabase.class, AppDatabase.DatabaseName)
+                    .addMigrations(AppDatabase.MIGRATION_1_2)
+                    .build();
             List<NotesEntity> listOfNotes = database.notesDao().getAll();
             database.close();
 
@@ -217,7 +221,9 @@ public class NotesActivity extends AppCompatActivity {
             }
 
             AppDatabase database = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, AppDatabase.DatabaseName).build();
+                    AppDatabase.class, AppDatabase.DatabaseName)
+                    .addMigrations(AppDatabase.MIGRATION_1_2)
+                    .build();
             database.notesDao().Update(notesEntities[0]);
             database.close();
 
