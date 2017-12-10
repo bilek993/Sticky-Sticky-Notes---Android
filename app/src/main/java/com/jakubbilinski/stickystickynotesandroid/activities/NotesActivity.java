@@ -116,12 +116,12 @@ public class NotesActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
 
             if (extras != null) {
-                int id = extras.getInt(IntentExtras.NOTE_ID);
+                int id = extras.getInt(IntentExtras.NOTE_POSITION);
                 notesList.get(id).setContext(extras.getString(IntentExtras.NOTE_CONTEXT));
                 notesList.get(id).setLastEditDate(extras.getString(IntentExtras.NOTE_DATE));
                 notesAdapter.notifyItemChanged(id);
 
-                new UpdateNote().execute(notesList.get(id));
+                new UpdateNote().execute(notesList.get(extras.getInt(IntentExtras.NOTE_POSITION)));
             }
         }
     }
@@ -196,11 +196,12 @@ public class NotesActivity extends AppCompatActivity {
             recyclerViewNotes.setLayoutManager(new StaggeredGridLayoutManager(
                     2, StaggeredGridLayoutManager.VERTICAL));
 
-            notesAdapter.setOnItemClickListener((position, noteContext, lastEditDate, color, cardView) -> {
+            notesAdapter.setOnItemClickListener((position, id, noteContext, lastEditDate, color, cardView) -> {
                 Intent intent = new Intent(NotesActivity.this, EditorActivity.class);
 
                 intent.putExtra(getString(R.string.animation_transition_notes_to_editor), position);
-                intent.putExtra(IntentExtras.NOTE_ID, position);
+                intent.putExtra(IntentExtras.NOTE_POSITION, position);
+                intent.putExtra(IntentExtras.NOTE_ID, id);
                 intent.putExtra(IntentExtras.NOTE_CONTEXT, noteContext);
                 intent.putExtra(IntentExtras.NOTE_DATE, lastEditDate);
                 intent.putExtra(IntentExtras.NOTE_COLOR, color);
@@ -211,7 +212,7 @@ public class NotesActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE, options.toBundle());
             });
 
-            notesAdapter.setOnItemClickLongListener((position, noteContext, lastEditDate, color, cardView) -> { {
+            notesAdapter.setOnItemClickLongListener((position, id, noteContext, lastEditDate, color, cardView) -> { {
                 new AlertDialog.Builder(NotesActivity.this)
                         .setTitle(getString(R.string.remove_dialog_title))
                         .setMessage(getString(R.string.remove_dialog_message))

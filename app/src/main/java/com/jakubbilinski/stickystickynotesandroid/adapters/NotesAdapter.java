@@ -46,7 +46,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     }
 
     public interface OnItemClickListener {
-        void onClick(int position, String noteContext, String lastEditDate, int color, CardView cardView);
+        void onClick(int position, int id, String noteContext, String lastEditDate, int color, CardView cardView);
     }
 
     @Override
@@ -65,6 +65,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         holder.cardViewNote.setOnClickListener(view -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onClick(holder.getAdapterPosition(),
+                        notesList.get(position).getId(),
                         holder.textViewNoteContext.getText().toString(),
                         holder.textViewDate.getText().toString(),
                         generateColor(notesList.get(position).getId()),
@@ -75,6 +76,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         holder.cardViewNote.setOnLongClickListener(view -> {
             if (onItemClickLongListener != null) {
                 onItemClickLongListener.onClick(holder.getAdapterPosition(),
+                        notesList.get(position).getId(),
                         holder.textViewNoteContext.getText().toString(),
                         holder.textViewDate.getText().toString(),
                         -1, // Color is irrelevant, so it's set to -1 value

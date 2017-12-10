@@ -31,7 +31,7 @@ public class EditorActivity extends AppCompatActivity {
     @BindView(R.id.ConstraintLayoutEditor)
     ConstraintLayout constraintLayoutEditor;
 
-    private int noteId;
+    private int notePosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class EditorActivity extends AppCompatActivity {
         Calendar currentDate = Calendar.getInstance();
 
         Intent resultIntent = new Intent();
-        resultIntent.putExtra(IntentExtras.NOTE_ID, noteId);
+        resultIntent.putExtra(IntentExtras.NOTE_POSITION, notePosition);
         resultIntent.putExtra(IntentExtras.NOTE_CONTEXT, editTextContext.getText().toString());
         resultIntent.putExtra(IntentExtras.NOTE_DATE, DateConverter.calendarToDate(currentDate));
         setResult(RESULT_OK, resultIntent);
@@ -75,7 +75,7 @@ public class EditorActivity extends AppCompatActivity {
 
     private void initSetupFields(Bundle bundle) {
         if (bundle != null) {
-            noteId = bundle.getInt(IntentExtras.NOTE_ID);
+            notePosition = bundle.getInt(IntentExtras.NOTE_POSITION);
             editTextContext.setText(bundle.getString(IntentExtras.NOTE_CONTEXT));
             textViewDate.setText(bundle.getString(IntentExtras.NOTE_DATE));
             constraintLayoutEditor.setBackgroundColor(bundle.getInt(IntentExtras.NOTE_COLOR));
@@ -87,7 +87,7 @@ public class EditorActivity extends AppCompatActivity {
             return;
         }
 
-        noteId = bundle.getInt(IntentExtras.NOTE_ID);
+        int noteId = bundle.getInt(IntentExtras.NOTE_ID);
         int primaryColor = getPrimaryColor(noteId);
         int primaryColorDark = getPrimaryDarkColor(noteId);
 

@@ -6,6 +6,7 @@ package com.jakubbilinski.stickystickynotesandroid.helpers;
 
 public class IntentExtras {
 
+    public static final String NOTE_POSITION = "notePosition";
     public static final String NOTE_ID = "noteId";
     public static final String NOTE_CONTEXT = "noteContext";
     public static final String NOTE_DATE = "noteDate";
