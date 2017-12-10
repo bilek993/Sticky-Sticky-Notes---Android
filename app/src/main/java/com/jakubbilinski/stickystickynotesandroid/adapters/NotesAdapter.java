@@ -21,7 +21,7 @@ import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
-    private static final int COLORS_COUNT = 7;
+    public static final int COLORS_COUNT = 7;
 
     private List<NotesEntity> notesList = new ArrayList<>();
     private Context context;
@@ -88,19 +88,19 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     public int generateColor(int id) {
         switch (id%COLORS_COUNT) {
             case 0:
-                return ContextCompat.getColor(context, R.color.color_note_0);
+                return ContextCompat.getColor(context, R.color.color_note_0_background);
             case 1:
-                return ContextCompat.getColor(context, R.color.color_note_1);
+                return ContextCompat.getColor(context, R.color.color_note_1_background);
             case 2:
-                return ContextCompat.getColor(context, R.color.color_note_2);
+                return ContextCompat.getColor(context, R.color.color_note_2_background);
             case 3:
-                return ContextCompat.getColor(context, R.color.color_note_3);
+                return ContextCompat.getColor(context, R.color.color_note_3_background);
             case 4:
-                return ContextCompat.getColor(context, R.color.color_note_4);
+                return ContextCompat.getColor(context, R.color.color_note_4_background);
             case 5:
-                return ContextCompat.getColor(context, R.color.color_note_5);
+                return ContextCompat.getColor(context, R.color.color_note_5_background);
             case 6:
-                return ContextCompat.getColor(context, R.color.color_note_6);
+                return ContextCompat.getColor(context, R.color.color_note_6_background);
             default:
                 return 0;
         }

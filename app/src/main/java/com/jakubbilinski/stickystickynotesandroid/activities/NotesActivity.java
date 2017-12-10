@@ -81,11 +81,11 @@ public class NotesActivity extends AppCompatActivity {
 
     private void setupSwipeLayout() {
         swipeRefreshLayoutNotes.setColorSchemeResources(
-                R.color.color_note_0,
+                R.color.color_note_0_background,
                 R.color.primary_dark,
-                R.color.color_note_1,
+                R.color.color_note_1_background,
                 R.color.primary,
-                R.color.color_note_5
+                R.color.color_note_5_background
         );
 
         IntentFilter filter = new IntentFilter(IntentExtras.ACTION_BROADCAST_RESPONSE);
