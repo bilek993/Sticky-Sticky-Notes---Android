@@ -18,6 +18,9 @@ public interface NotesDao {
     @Query("SELECT * FROM notesentity")
     List<NotesEntity> getAll();
 
+    @Query("SELECT * FROM notesentity WHERE Removed = 0")
+    List<NotesEntity> getNotRemovedNotes();
+
     @Insert
     void Insert(NotesEntity note);
 

@@ -77,7 +77,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                 onItemClickLongListener.onClick(holder.getAdapterPosition(),
                         holder.textViewNoteContext.getText().toString(),
                         holder.textViewDate.getText().toString(),
-                        generateColor(notesList.get(position).getId()),
+                        -1, // Color is irrelevant, so it's set to -1 value
                         holder.cardViewNote);
             }
 

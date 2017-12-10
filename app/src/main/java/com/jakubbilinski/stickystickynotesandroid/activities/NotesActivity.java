@@ -164,7 +164,7 @@ public class NotesActivity extends AppCompatActivity {
                     AppDatabase.class, AppDatabase.DatabaseName)
                     .addMigrations(AppDatabase.MIGRATION_1_2)
                     .build();
-            List<NotesEntity> listOfNotes = database.notesDao().getAll();
+            List<NotesEntity> listOfNotes = database.notesDao().getNotRemovedNotes();
             database.close();
 
             return listOfNotes;
@@ -204,7 +204,12 @@ public class NotesActivity extends AppCompatActivity {
                         .setTitle(getString(R.string.remove_dialog_title))
                         .setMessage(getString(R.string.remove_dialog_message))
                         .setPositiveButton(getString(R.string.yes), (dialogInterface, i) -> {
+                            NotesEntity noteToBeRemoved = notesList.get(position);
+                            noteToBeRemoved.setRemoved(true);
+                            new UpdateNote().execute(noteToBeRemoved);
 
+                            notesList.remove(position);
+                            notesAdapter.notifyItemRemoved(position);
                         })
                         .setNegativeButton(getString(R.string.no), null)
                         .show();
