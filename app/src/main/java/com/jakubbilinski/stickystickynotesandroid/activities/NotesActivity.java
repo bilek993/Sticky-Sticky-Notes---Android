@@ -126,6 +126,19 @@ public class NotesActivity extends AppCompatActivity {
             }
         }
     }
+    
+    private void refreshingServiceFinished() {
+        swipeRefreshLayoutNotes.setRefreshing(false);
+        new GetAllNotes().execute();
+    }
+
+    public class ResponseReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            NotesActivity.this.refreshingServiceFinished();
+        }
+    }
 
     private class AddNewNote extends AsyncTask<NotesEntity, Void, List<NotesEntity>> {
 
@@ -214,19 +227,6 @@ public class NotesActivity extends AppCompatActivity {
                         .setNegativeButton(getString(R.string.no), null)
                         .show();
             }});
-        }
-    }
-
-    private void refreshingServiceFinished() {
-        swipeRefreshLayoutNotes.setRefreshing(false);
-        new GetAllNotes().execute();
-    }
-
-    public class ResponseReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            NotesActivity.this.refreshingServiceFinished();
         }
     }
 
