@@ -4,7 +4,6 @@ import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.migration.Migration;
-import android.support.annotation.NonNull;
 
 import com.jakubbilinski.stickystickynotesandroid.database.daos.NotesDao;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;

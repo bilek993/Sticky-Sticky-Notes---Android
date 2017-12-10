@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.jakubbilinski.stickystickynotesandroid.database.AppDatabase;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
@@ -15,7 +14,6 @@ import com.jakubbilinski.stickystickynotesandroid.networking.items.NotesItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Callable;
 
 /**
  * Created by jbili on 13.11.2017.
