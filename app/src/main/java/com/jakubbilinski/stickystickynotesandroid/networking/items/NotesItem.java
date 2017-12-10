@@ -19,6 +19,9 @@ public class NotesItem {
     @SerializedName("LastEditDate")
     @Expose
     private String lastEditDate;
+    @SerializedName("Removed")
+    @Expose
+    private boolean removed;
 
     public int getId() {
         return id;
@@ -44,9 +47,18 @@ public class NotesItem {
         this.lastEditDate = lastEditDate;
     }
 
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
+    }
+
     public NotesItem(NotesEntity notesEntity) {
         id = notesEntity.getServerId();
         context = notesEntity.getContext();
         lastEditDate = notesEntity.getLastEditDate();
+        removed = notesEntity.isRemoved();
     }
 }
