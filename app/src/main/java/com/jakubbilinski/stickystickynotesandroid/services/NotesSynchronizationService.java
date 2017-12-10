@@ -86,10 +86,6 @@ public class NotesSynchronizationService extends IntentService{
         }
 
         networking.updateNotes(notesItemsConverted, () -> {
-            Intent broadcastIntent = new Intent();
-            broadcastIntent.setAction(IntentExtras.ACTION_BROADCAST_RESPONSE);
-            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-            sendBroadcast(broadcastIntent);
             getNotesFromServer();
             return null;
         });
@@ -97,7 +93,10 @@ public class NotesSynchronizationService extends IntentService{
 
     private void getNotesFromServer() {
         networking.getNotes(() -> {
-            stopSelf();
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction(IntentExtras.ACTION_BROADCAST_RESPONSE);
+            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+            sendBroadcast(broadcastIntent);
             return null;
         });
     }
@@ -117,10 +116,6 @@ public class NotesSynchronizationService extends IntentService{
         }  else if (listOfNotesToBeUpdated.size() != 0) {
             updateNotes();
         } else {
-            Intent broadcastIntent = new Intent();
-            broadcastIntent.setAction(IntentExtras.ACTION_BROADCAST_RESPONSE);
-            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-            sendBroadcast(broadcastIntent);
             getNotesFromServer();
         }
     }
