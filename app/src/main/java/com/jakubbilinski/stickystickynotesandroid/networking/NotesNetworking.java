@@ -140,7 +140,8 @@ public class NotesNetworking {
                     if (notesItem.getId() == notesEntity.getServerId()) {
                         foundEntity = notesEntity;
                         notesEntity.setContext(notesItem.getContext());
-                        notesEntity.setLastEditDate(notesEntity.getLastEditDate());
+                        notesEntity.setLastEditDate(notesItem.getLastEditDate());
+                        notesEntity.setRemoved(notesItem.isRemoved());
                         foundItemWithId = true;
                         break;
                     }

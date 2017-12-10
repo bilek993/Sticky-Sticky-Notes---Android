@@ -34,7 +34,7 @@ public class NotesEntity {
         this.serverId = notesItem.getId();
         this.context = notesItem.getContext();
         this.lastEditDate = notesItem.getLastEditDate();
-        this.removed = false;
+        this.removed = notesItem.isRemoved();
     }
 
     public int getId() {
