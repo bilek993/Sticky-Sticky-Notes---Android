@@ -26,6 +26,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     private List<NotesEntity> notesList = new ArrayList<>();
     private Context context;
     private OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickLongListener;
 
     public NotesAdapter(Context context, List<NotesEntity> notesList) {
         this.context = context;
@@ -38,6 +39,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemClickLongListener(OnItemClickListener onItemClickLongListener) {
+        this.onItemClickLongListener = onItemClickLongListener;
     }
 
     public interface OnItemClickListener {
@@ -65,6 +70,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                         generateColor(notesList.get(position).getId()),
                         holder.cardViewNote);
             }
+        });
+
+        holder.cardViewNote.setOnLongClickListener(view -> {
+            if (onItemClickLongListener != null) {
+                onItemClickLongListener.onClick(holder.getAdapterPosition(),
+                        holder.textViewNoteContext.getText().toString(),
+                        holder.textViewDate.getText().toString(),
+                        generateColor(notesList.get(position).getId()),
+                        holder.cardViewNote);
+            }
+
+            return true;
         });
     }
 

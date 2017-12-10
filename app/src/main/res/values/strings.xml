@@ -12,6 +12,8 @@
     <string name="cancel">Cancel</string>
     <string name="network_error_no_code">Unknown problem. More informations:</string>
     <string name="ok">Ok</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="wrong_url_format">Wrong url format. Url should begin with \'http\' or \'https\' prefix.</string>
     <string name="new_user_title">New user</string>
     <string name="new_user">New user has been created. You can login into your account now.</string>
@@ -45,6 +47,8 @@
         or proxy and did not receive a timely response from the upstream server.</string>
     <string name="network_with_error_code_unknown">Unknown networking problem. More informations:</string>
     <string name="empty_note_message">Touch this note to change it.</string>
+    <string name="remove_dialog_title">Removing item</string>
+    <string name="remove_dialog_message">Would you like to remove selected item?</string>
 
 
     <!-- Strings used as variables or as constant values -->

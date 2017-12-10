@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -196,6 +198,17 @@ public class NotesActivity extends AppCompatActivity {
 
                 startActivityForResult(intent, REQUEST_CODE, options.toBundle());
             });
+
+            notesAdapter.setOnItemClickLongListener((position, noteContext, lastEditDate, color, cardView) -> { {
+                new AlertDialog.Builder(NotesActivity.this)
+                        .setTitle(getString(R.string.remove_dialog_title))
+                        .setMessage(getString(R.string.remove_dialog_message))
+                        .setPositiveButton(getString(R.string.yes), (dialogInterface, i) -> {
+
+                        })
+                        .setNegativeButton(getString(R.string.no), null)
+                        .show();
+            }});
         }
     }
 
