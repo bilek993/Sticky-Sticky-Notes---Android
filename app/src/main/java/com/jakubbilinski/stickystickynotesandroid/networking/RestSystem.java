@@ -5,7 +5,10 @@ import android.support.v7.app.AlertDialog;
 
 import com.google.gson.GsonBuilder;
 import com.jakubbilinski.stickystickynotesandroid.R;
+import com.jakubbilinski.stickystickynotesandroid.helpers.Base64Converter;
 import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
+
+import java.io.UnsupportedEncodingException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,12 +31,20 @@ public class RestSystem {
     }
 
     public static RestClient buildWithAuthentication(Context context) {
-        String authHeader = "Basic YmlsdTp6eGM="; // TODO: Change it to data from user login and password
+        String login = LocalStorageHelper.getLogin(context);
+        String password = LocalStorageHelper.getPassword(context);
+        String authHeader = "";
+        try {
+            authHeader = "Basic " + Base64Converter.generateUserCredentials(login, password);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
+        String finalAuthHeader = authHeader;
         OkHttpClient defaultOkHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request authorisedRequest = chain.request().newBuilder()
-                            .addHeader("Authorization", authHeader).build();
+                            .addHeader("Authorization", finalAuthHeader).build();
                     return chain.proceed(authorisedRequest);
                 }).build();
 
