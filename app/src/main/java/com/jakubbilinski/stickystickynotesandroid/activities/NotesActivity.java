@@ -126,7 +126,7 @@ public class NotesActivity extends AppCompatActivity {
             }
         }
     }
-    
+
     private void refreshingServiceFinished() {
         swipeRefreshLayoutNotes.setRefreshing(false);
         new GetAllNotes().execute();
@@ -153,7 +153,7 @@ public class NotesActivity extends AppCompatActivity {
                     .addMigrations(AppDatabase.MIGRATION_1_2)
                     .build();
             database.notesDao().Insert(notesEntities[0]);
-            List<NotesEntity> listOfNotes = database.notesDao().getAll();
+            List<NotesEntity> listOfNotes = database.notesDao().getNotRemovedNotes();
             database.close();
 
             return listOfNotes;
