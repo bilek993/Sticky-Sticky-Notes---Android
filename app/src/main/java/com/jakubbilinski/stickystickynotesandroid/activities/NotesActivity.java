@@ -102,7 +102,7 @@ public class NotesActivity extends AppCompatActivity {
     @OnClick(R.id.floatingActionButtonAdd)
     void onAddButtonClick() {
         Calendar currentDate = Calendar.getInstance();
-        NotesEntity newNote = new NotesEntity(getString(R.string.empty_note_message),
+        NotesEntity newNote = new NotesEntity("",
                 DateConverter.calendarToDate(currentDate));
 
         new AddNewNote().execute(newNote);

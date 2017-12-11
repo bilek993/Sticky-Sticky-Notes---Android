@@ -58,7 +58,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     @Override
     public void onBindViewHolder(NotesViewHolder holder, int position) {
-        holder.textViewNoteContext.setText(notesList.get(position).getContext());
+        final String contextMessage = notesList.get(position).getContext();
+
+        if (!contextMessage.isEmpty()) {
+            holder.textViewNoteContext.setText(contextMessage);
+        } else {
+            holder.textViewNoteContext.setText(context.getString(R.string.empty_note_message));
+        }
         holder.textViewDate.setText(notesList.get(position).getLastEditDate());
         holder.cardViewNote.setCardBackgroundColor(generateColor(notesList.get(position).getId()));
 
@@ -66,7 +72,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             if (onItemClickListener != null) {
                 onItemClickListener.onClick(holder.getAdapterPosition(),
                         notesList.get(position).getId(),
-                        holder.textViewNoteContext.getText().toString(),
+                        contextMessage,
                         holder.textViewDate.getText().toString(),
                         generateColor(notesList.get(position).getId()),
                         holder.cardViewNote);
@@ -77,7 +83,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             if (onItemClickLongListener != null) {
                 onItemClickLongListener.onClick(holder.getAdapterPosition(),
                         notesList.get(position).getId(),
-                        holder.textViewNoteContext.getText().toString(),
+                        contextMessage,
                         holder.textViewDate.getText().toString(),
                         -1, // Color is irrelevant, so it's set to -1 value
                         holder.cardViewNote);
