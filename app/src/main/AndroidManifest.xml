@@ -30,8 +30,7 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/LoginTheme"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.NotesActivity"
             android:screenOrientation="portrait"/>
