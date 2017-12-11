@@ -99,14 +99,15 @@ public class NotesActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View alertView = layoutInflater.inflate(R.layout.alertdialog_simple_input, null);
 
-        final EditText editTextinput = new EditText(this);
+        final EditText editTextInput = alertView.findViewById(R.id.editTextDialogInput);
+        editTextInput.setText(LocalStorageHelper.getServerAddress(this));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.enter_address))
                 .setView(alertView)
                 .setPositiveButton(getString(R.string.set_new_address),
                         (dialog, which) -> {
-                            String input = editTextinput.getText().toString();
+                            String input = editTextInput.getText().toString();
 
                             if (AddressVeryfication.verify(this, input)) {
                                 LocalStorageHelper.setServerAddress(NotesActivity.this, input);
