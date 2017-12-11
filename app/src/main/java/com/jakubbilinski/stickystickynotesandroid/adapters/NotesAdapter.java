@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
+import com.jakubbilinski.stickystickynotesandroid.helpers.DateConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +46,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         this.onItemClickLongListener = onItemClickLongListener;
     }
 
-    public List<NotesEntity> getNotesList() {
-        return notesList;
-    }
-
     public interface OnItemClickListener {
         void onClick(int position, int id, String noteContext, String lastEditDate, int color, CardView cardView);
     }
@@ -70,7 +67,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         } else {
             holder.textViewNoteContext.setText(context.getString(R.string.empty_note_message));
         }
-        holder.textViewDate.setText(notesList.get(position).getLastEditDate());
+        holder.setLastEditDate(notesList.get(position).getLastEditDate());
         holder.cardViewNote.setCardBackgroundColor(generateColor(notesList.get(position).getId()));
 
         holder.cardViewNote.setOnClickListener(view -> {
@@ -79,7 +76,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                         holder.getAdapterPosition(),
                         idFromList,
                         contextMessage,
-                        holder.textViewDate.getText().toString(),
+                        holder.getLastEditDate(),
                         generateColor(notesList.get(holder.getAdapterPosition()).getId()),
                         holder.cardViewNote);
             }
@@ -91,7 +88,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                         holder.getAdapterPosition(),
                         idFromList,
                         contextMessage,
-                        holder.textViewDate.getText().toString(),
+                        holder.getLastEditDate(),
                         -1, // Color is irrelevant, so it's set to -1 value
                         holder.cardViewNote);
             }
@@ -130,14 +127,25 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         CardView cardViewNote;
         TextView textViewNoteContext;
-        TextView textViewDate;
+        TextView textViewLastEditDate;
+
+        private String lastEditDate;
 
         NotesViewHolder(View itemView) {
             super(itemView);
 
             cardViewNote = itemView.findViewById(R.id.cardViewNote);
             textViewNoteContext = itemView.findViewById(R.id.textViewNoteContext);
-            textViewDate = itemView.findViewById(R.id.textViewDate);
+            textViewLastEditDate = itemView.findViewById(R.id.textViewDate);
+        }
+
+        public String getLastEditDate() {
+            return lastEditDate;
+        }
+
+        public void setLastEditDate(String lastEditDate) {
+            this.lastEditDate = lastEditDate;
+            textViewLastEditDate.setText(DateConverter.timezoneDateToNormal(lastEditDate));
         }
     }
 }

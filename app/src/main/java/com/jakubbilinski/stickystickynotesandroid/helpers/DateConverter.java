@@ -31,4 +31,8 @@ public class DateConverter {
 
         return calendar;
     }
+
+    public static String timezoneDateToNormal(String stringDate) {
+        return stringDate.replaceAll("T", " ");
+    }
 }
