@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
+import com.jakubbilinski.stickystickynotesandroid.helpers.AddressVeryfication;
 import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
 import com.jakubbilinski.stickystickynotesandroid.networking.LoginNetworking;
 
@@ -47,24 +48,11 @@ public class LoginActivity extends AppCompatActivity {
         networking = new LoginNetworking(this);
     }
 
-    private boolean checkServerAddress(String address) {
-        if (!address.startsWith("http:") && !address.startsWith("https:")) {
-            new AlertDialog.Builder(LoginActivity.this)
-                    .setTitle(getString(R.string.encountered_problem))
-                    .setMessage(getString(R.string.wrong_url_format))
-                    .setPositiveButton(getText(R.string.ok), null)
-                    .show();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     @OnClick(R.id.floatingActionButtonLogin)
     void onFloatingActionButtonLoginClick() {
         String address = textInputEditTextServerAddress.getText().toString();
 
-        if (checkServerAddress(address)) {
+        if (!AddressVeryfication.verify(this, address)) {
             return;
         }
 
@@ -98,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
     void onRegisterButtonClick() {
         String address = textInputEditTextServerAddress.getText().toString();
 
-        if (checkServerAddress(address)) {
+        if (!AddressVeryfication.verify(this, address)) {
             return;
         }
 

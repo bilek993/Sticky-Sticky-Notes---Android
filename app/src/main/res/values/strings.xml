@@ -53,6 +53,7 @@
     <string name="logout">Logout</string>
     <string name="change_server">Change server</string>
     <string name="set_new_address">Set new address</string>
+    <string name="enter_address">Enter new server address:</string>
 
 
     <!-- Strings used as variables or as constant values -->

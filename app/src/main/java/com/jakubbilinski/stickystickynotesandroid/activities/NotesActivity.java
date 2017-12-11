@@ -28,6 +28,7 @@ import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.adapters.NotesAdapter;
 import com.jakubbilinski.stickystickynotesandroid.database.AppDatabase;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
+import com.jakubbilinski.stickystickynotesandroid.helpers.AddressVeryfication;
 import com.jakubbilinski.stickystickynotesandroid.helpers.DateConverter;
 import com.jakubbilinski.stickystickynotesandroid.helpers.IntentExtras;
 import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
@@ -98,15 +99,20 @@ public class NotesActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View alertView = layoutInflater.inflate(R.layout.alertdialog_simple_input, null);
 
-
-        final EditText input = new EditText(this);
+        final EditText editTextinput = new EditText(this);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Title")
+                .setTitle(getString(R.string.enter_address))
                 .setView(alertView)
                 .setPositiveButton(getString(R.string.set_new_address),
-                        (dialog, which) -> LocalStorageHelper.setServerAddress(NotesActivity.this,
-                                input.getText().toString()));
+                        (dialog, which) -> {
+                            String input = editTextinput.getText().toString();
+
+                            if (AddressVeryfication.verify(this, input)) {
+                                LocalStorageHelper.setServerAddress(NotesActivity.this, input);
+                            }
+                        });
+
         builder.show();
     }
 
