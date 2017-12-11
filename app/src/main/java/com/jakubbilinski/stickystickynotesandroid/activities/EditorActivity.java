@@ -77,7 +77,7 @@ public class EditorActivity extends AppCompatActivity {
         if (bundle != null) {
             notePosition = bundle.getInt(IntentExtras.NOTE_POSITION);
             editTextContext.setText(bundle.getString(IntentExtras.NOTE_CONTEXT));
-            textViewDate.setText(bundle.getString(IntentExtras.NOTE_DATE));
+            textViewDate.setText(DateConverter.timezoneDateToNormal(bundle.getString(IntentExtras.NOTE_DATE)));
             constraintLayoutEditor.setBackgroundColor(bundle.getInt(IntentExtras.NOTE_COLOR));
         }
     }
