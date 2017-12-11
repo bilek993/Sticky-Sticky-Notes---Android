@@ -45,6 +45,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         this.onItemClickLongListener = onItemClickLongListener;
     }
 
+    public List<NotesEntity> getNotesList() {
+        return notesList;
+    }
+
     public interface OnItemClickListener {
         void onClick(int position, int id, String noteContext, String lastEditDate, int color, CardView cardView);
     }
@@ -59,6 +63,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     @Override
     public void onBindViewHolder(NotesViewHolder holder, int position) {
         final String contextMessage = notesList.get(position).getContext();
+        final int idFromList = notesList.get(holder.getAdapterPosition()).getId();
 
         if (!contextMessage.isEmpty()) {
             holder.textViewNoteContext.setText(contextMessage);
@@ -70,19 +75,21 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         holder.cardViewNote.setOnClickListener(view -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onClick(holder.getAdapterPosition(),
-                        notesList.get(position).getId(),
+                onItemClickListener.onClick(
+                        holder.getAdapterPosition(),
+                        idFromList,
                         contextMessage,
                         holder.textViewDate.getText().toString(),
-                        generateColor(notesList.get(position).getId()),
+                        generateColor(notesList.get(holder.getAdapterPosition()).getId()),
                         holder.cardViewNote);
             }
         });
 
         holder.cardViewNote.setOnLongClickListener(view -> {
             if (onItemClickLongListener != null) {
-                onItemClickLongListener.onClick(holder.getAdapterPosition(),
-                        notesList.get(position).getId(),
+                onItemClickLongListener.onClick(
+                        holder.getAdapterPosition(),
+                        idFromList,
                         contextMessage,
                         holder.textViewDate.getText().toString(),
                         -1, // Color is irrelevant, so it's set to -1 value
