@@ -32,4 +32,7 @@ public interface NotesDao {
 
     @Update
     void Update(List<NotesEntity> notes);
+
+    @Query("DELETE FROM notesentity")
+    void NukeData();
 }

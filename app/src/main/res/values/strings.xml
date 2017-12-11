@@ -49,6 +49,10 @@
     <string name="empty_note_message">Touch this note to change it.</string>
     <string name="remove_dialog_title">Removing item</string>
     <string name="remove_dialog_message">Would you like to remove selected item?</string>
+    <string name="close">Close</string>
+    <string name="logout">Logout</string>
+    <string name="change_server">Change server</string>
+    <string name="set_new_address">Set new address</string>
 
 
     <!-- Strings used as variables or as constant values -->

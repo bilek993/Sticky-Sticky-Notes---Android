@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
@@ -15,8 +16,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
 import com.jakubbilinski.stickystickynotesandroid.adapters.NotesAdapter;
@@ -24,11 +30,13 @@ import com.jakubbilinski.stickystickynotesandroid.database.AppDatabase;
 import com.jakubbilinski.stickystickynotesandroid.database.entities.NotesEntity;
 import com.jakubbilinski.stickystickynotesandroid.helpers.DateConverter;
 import com.jakubbilinski.stickystickynotesandroid.helpers.IntentExtras;
+import com.jakubbilinski.stickystickynotesandroid.helpers.LocalStorageHelper;
 import com.jakubbilinski.stickystickynotesandroid.services.NotesSynchronizationService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,9 +67,26 @@ public class NotesActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_notes, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case R.id.menu_change_ip:
+                changeAddressDialog();
+                break;
+            case R.id.menu_logout:
+                LocalStorageHelper.removeAll(this);
+                new RemoveAllNotes().execute((Callable) () -> {
+                    finishAffinity();
+                    return null;
+                });
+                break;
+            case R.id.menu_close:
                 onBackPressed();
                 break;
         }
@@ -69,6 +94,21 @@ public class NotesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void changeAddressDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View alertView = layoutInflater.inflate(R.layout.alertdialog_simple_input, null);
+
+
+        final EditText input = new EditText(this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Title")
+                .setView(alertView)
+                .setPositiveButton(getString(R.string.set_new_address),
+                        (dialog, which) -> LocalStorageHelper.setServerAddress(NotesActivity.this,
+                                input.getText().toString()));
+        builder.show();
+    }
 
     private void setupRecycler() {
         new GetAllNotes().execute();
@@ -240,6 +280,28 @@ public class NotesActivity extends AppCompatActivity {
             database.notesDao().Update(notesEntities[0]);
             database.close();
 
+            return null;
+        }
+    }
+
+    private class RemoveAllNotes extends AsyncTask<Callable,Void,Void> {
+
+        @Override
+        protected Void doInBackground(Callable[] callables) {
+            AppDatabase database = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, AppDatabase.DatabaseName)
+                    .addMigrations(AppDatabase.MIGRATION_1_2)
+                    .build();
+            database.notesDao().NukeData();
+            database.close();
+
+            for (Callable callback : callables) {
+                try {
+                    callback.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             return null;
         }
     }

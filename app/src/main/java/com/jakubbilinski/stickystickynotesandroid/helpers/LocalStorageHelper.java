@@ -47,4 +47,12 @@ public class LocalStorageHelper {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         settings.edit().putString(PASSWORD, value).commit();
     }
+
+    // Clearing data
+    public static void removeAll(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
+        editor.commit();
+    }
 }
