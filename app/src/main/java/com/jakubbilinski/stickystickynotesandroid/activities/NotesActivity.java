@@ -54,11 +54,6 @@ public class NotesActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.close));
-        }
-
         setupRecycler();
         setupSwipeLayout();
     }
