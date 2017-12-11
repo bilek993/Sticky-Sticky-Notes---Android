@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 
 import com.jakubbilinski.stickystickynotesandroid.R;
-import com.jakubbilinski.stickystickynotesandroid.activities.LoginActivity;
 
 /**
  * Created by jbili on 11.12.2017.
