@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Sticky Sticky Notes</string>
+    <string name="app_icon">Ikona aplikacji</string>
+    <string name="welcome">Witaj!</string>
+    <string name="have_a_nice_day">Oraz miłego dnia!</string>
+    <string name="username">Login</string>
+    <string name="password">Hasło</string>
+    <string name="ip_address">Adres serwera</string>
+    <string name="register">Zarejestruj się</string>
+    <string name="encountered_problem">Napotkano problem</string>
+    <string name="try_again">Spróbuj ponownie</string>
+    <string name="cancel">Anuluj</string>
+    <string name="network_error_no_code">Nieznany błąd. Więcej infomracji:</string>
+    <string name="ok">Ok</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="wrong_url_format">Niepoprawny format adresu. Adres powinien rozpoczytać się od
+        \'http\' lub \'https\'.</string>
+    <string name="new_user_title">Nowy użytkownik</string>
+    <string name="new_user">Nowe konto zostało utworzone. Możesz się teraz zalogować do aplikacji.</string>
+    <string name="network_with_error_code_400">400 Nieprawidłowe zapytanie – żądanie nie może być obsłużone
+        przez serwer z powodu nieprawidłowości postrzeganej jako błąd użytkownika (np. błędna składnia zapytania).</string>
+    <string name="network_with_error_code_401">401 Nieautoryzowany dostęp – błąd modułu autentykacji.
+        Odczekaj kilkanaście sekund i spróbuj ponownie.</string>
+    <string name="network_with_error_code_403">403 Zabroniony – serwer zrozumiał zapytanie, lecz konfiguracja
+        bezpieczeństwa zabrania mu zwrócić żądany zasób.</string>
+    <string name="network_with_error_code_404">404 Nie znaleziono – serwer nie odnalazł zasobu według podanego URL
+        ani niczego co by wskazywało na istnienie takiego zasobu w przeszłości.</string>
+    <string name="network_with_error_code_408">408 Koniec czasu oczekiwania na żądanie – klient nie przesłał
+        zapytania do serwera w określonym czasie.</string>
+    <string name="network_with_error_code_410">410 >Zniknął (usunięto) – zażądany zasób nie jest dłużej dostępny
+        i nieznany jest jego ewentualny nowy adres URI; klient powinien już więcej nie odwoływać się do tego zasobu.</string>
+    <string name="network_with_error_code_500">500 Wewnętrzny błąd serwera – serwer napotkał niespodziewane trudności,
+        które uniemożliwiły zrealizowanie żądania.</string>
+    <string name="network_with_error_code_502">502 Błąd bramy – serwer – spełniający rolę bramy lub pośrednika – otrzymał
+        niepoprawną odpowiedź od serwera nadrzędnego i nie jest w stanie zrealizować żądania klienta.</string>
+    <string name="network_with_error_code_503">503 Usługa niedostępna – serwer nie jest w stanie w danej chwili
+        zrealizować zapytania klienta ze względu na przeciążenie.</string>
+    <string name="network_with_error_code_504">504 Przekroczony czas bramy – serwer – spełniający rolę bramy
+        lub pośrednika – nie otrzymał w ustalonym czasie odpowiedzi od wskazanego serwera HTTP, FTP, LDAP itp.
+        lub serwer DNS jest potrzebny do obsłużenia zapytania.</string>
+    <string name="network_with_error_code_unknown">Niezany błąd sieci. Więcej informacji:</string>
+    <string name="empty_note_message">Dotknij tą notatkę, by ją zmodyfikować.</string>
+    <string name="remove_dialog_title">Usuwanie elementu</string>
+    <string name="remove_dialog_message">Czy chcesz usunąć zaznaczony element?</string>
+    <string name="close">Zamknij</string>
+    <string name="logout">Wyloguj</string>
+    <string name="change_server">Zmień serwer</string>
+    <string name="set_new_address">Ustaw nowy serwer</string>
+    <string name="enter_address">Wprowadź nowy adres serwera:</string>
+</resources>
